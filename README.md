@@ -42,7 +42,7 @@ them.  They are all licensed under various compatible Open Source licenses.
 ## Upgrading
 
 If you are upgrading an existing ProjectPier installation,
-see [upgrade.txt](../master/upgrade.txt) for an upgrade procedure.
+see [UPGRADE.txt](../master/UPGRADE.txt) for an upgrade procedure.
 
 ## Installation
 
@@ -88,6 +88,6 @@ The following base languages are available:
 
 ProjectPier is an Open Source project management and collaboration tool that you can install on your own server.
 It is released under the terms of the Gnu Affero General Public License (AGPL)
-(see [LICENSE](../master/LICENSE) for details).
+(see [LICENSE.txt](../master/LICENSE.txt) for details).
 
 [http://www.projectpier.org](http://www.projectpier.org)
