@@ -8,23 +8,23 @@
   * @http://www.projectpier.org/
   */
   class Notifier {
-    
+
     /** Supported transports **/
     const MAIL_TRANSPORT_MAIL = 'mail()';
     const MAIL_TRANSPORT_SMTP = 'smtp';
-    
+
     /** Secure connection values **/
     const SMTP_SECURE_CONNECTION_NO  = 'no';
     const SMTP_SECURE_CONNECTION_SSL = 'ssl';
     const SMTP_SECURE_CONNECTION_TLS = 'tls';
-    
+
     /**
     * Cached value of exchange compatible config option
     *
     * @var boolean
     */
     static public $exchange_compatible = null;
-    
+
     /**
     * Reset password and send forgot password email to the user
     *
@@ -34,13 +34,13 @@
     */
     static function forgotPassword(User $user) {
       $administrator = owner_company()->getCreatedBy();
-      
+
       $new_password = $user->resetPassword(true);
       tpl_assign('user', $user);
       tpl_assign('new_password', $new_password);
 
       $from = $administrator->getDisplayName() . ' ' . config_option('site_name', '');
-      
+
       return self::sendEmail(
         self::prepareEmailAddress($user->getEmail(), $user->getDisplayName()),
         self::prepareEmailAddress($administrator->getEmail(), $from),
@@ -48,9 +48,9 @@
         tpl_fetch(get_template_path('forgot_password', 'notifier'))
       ); // send
     } // forgotPassword
-    
+
     /**
-    * Send new account notification email to the user whose accout has been created 
+    * Send new account notification email to the user whose accout has been created
     * (welcome message)
     *
     * @param User $user
@@ -63,7 +63,7 @@
       tpl_assign('raw_password', $raw_password);
 
       $from = $user->getCreatedByDisplayName() . ' ' . config_option('site_name', '');
-      
+
       return self::sendEmail(
         self::prepareEmailAddress($user->getEmail(), $user->getDisplayName()),
         self::prepareEmailAddress($user->getCreatedBy()->getEmail(), $from),
@@ -83,7 +83,7 @@
     static function updatedUserAccount(User $user, $raw_password) {
       tpl_assign('updated_account', $user);
       tpl_assign('raw_password', $raw_password);
-      
+
       return self::sendEmail(
         self::prepareEmailAddress($user->getEmail(), $user->getDisplayName()),
         self::prepareEmailAddress($user->getUpdatedBy()->getEmail(), $user->getUpdatedByDisplayName()),
@@ -91,7 +91,7 @@
         tpl_fetch(get_template_path('updated_account', 'notifier'))
       ); // send
     } // updatedUserAccount
-  
+
     /**
     * Send new task notification to the list of users ($people)
     *
@@ -104,7 +104,7 @@
       if(!is_array($people) || !count($people)) {
         return; // nothing here...
       } // if
-      
+
       tpl_assign('new_task', $task);
 
       $recipients = array();
@@ -118,7 +118,7 @@
         tpl_fetch(get_template_path('new_task', 'notifier'))
       ); // send
     } // newTask
-     
+
     /**
     * Send closed task notification to the list of users ($people)
     *
@@ -131,7 +131,7 @@
       if(!is_array($people) || !count($people)) {
         return; // nothing here...
       } // if
-      
+
       tpl_assign('task', $task);
 
       $recipients = array();
@@ -140,12 +140,12 @@
       } // foreach
       return self::sendEmail(
         $recipients,
-        self::prepareEmailAddress($task->getCreatedBy()->getEmail(), $task->getCreatedByDisplayName()),
+        self::prepareEmailAddress($task->getCreatedBy(), $user->getEmail(), $task->getCreatedByDisplayName()),
         $task->getProject()->getName() . ' - ' . lang('complete task') . ' - ' . $task->getObjectName(),
         tpl_fetch(get_template_path('complete_task', 'notifier'))
       ); // send
     } // newTask
-  
+
     /**
     * Send new message notification to the list of users ($people)
     *
@@ -158,14 +158,14 @@
       if (!is_array($people) || !count($people)) {
         return; // nothing here...
       } // if
-      
+
       tpl_assign('new_message', $message);
-      
+
       $recipients = array();
       foreach ($people as $user) {
         $recipients[] = self::prepareEmailAddress($user->getEmail(), $user->getDisplayName());
       } // foreach
-      
+
       return self::sendEmail(
         $recipients,
         self::prepareEmailAddress($message->getCreatedBy()->getEmail(), $message->getCreatedByDisplayName()),
@@ -186,14 +186,14 @@
       if (!is_array($people) || !count($people)) {
         return; // nothing here...
       } // if
-      
+
       tpl_assign('new_file', $file);
-      
+
       $recipients = array();
       foreach ($people as $user) {
         $recipients[] = self::prepareEmailAddress($user->getEmail(), $user->getDisplayName());
       } // foreach
-      
+
       return self::sendEmail(
         $recipients,
         self::prepareEmailAddress($file->getCreatedBy()->getEmail(), $file->getCreatedByDisplayName()),
@@ -253,23 +253,23 @@
       if(!is_array($all_subscribers)) {
         return true; // no subscribers
       } // if
-      
+
       $recipients = array();
       foreach($all_subscribers as $subscriber) {
         if($subscriber->getId() == $ticket->getUpdatedById()) {
           continue; // skip comment author
         } // if
-        
+
         $recipients[] = self::prepareEmailAddress($subscriber->getEmail(), $subscriber->getDisplayName());
       } // foreach
-      
+
       if(!count($recipients)) {
         return true; // no recipients
       } // if
-      
+
       tpl_assign('ticket', $ticket);
       tpl_assign('attached_files', $attached_files);
-      
+
       return self::sendEmail(
         $recipients,
         self::prepareEmailAddress($ticket->getUpdatedBy()->getEmail(), $ticket->getUpdatedBy()->getDisplayName()),
@@ -291,23 +291,23 @@
       if (!is_array($all_subscribers)) {
         return true; // no subscribers
       } // if
-      
+
       $recipients = array();
       foreach ($all_subscribers as $subscriber) {
         if ($subscriber->getId() == $ticket->getUpdatedById()) {
           continue; // skip comment author
         } // if
-        
+
         $recipients[] = self::prepareEmailAddress($subscriber->getEmail(), $subscriber->getDisplayName());
       } // foreach
-      
+
       if (!count($recipients)) {
         return true; // no recipients
       } // if
-      
+
       tpl_assign('ticket', $ticket);
       tpl_assign('detached_files', $detached_files);
-      
+
       return self::sendEmail(
         $recipients,
         self::prepareEmailAddress($ticket->getUpdatedBy()->getEmail(), $ticket->getUpdatedBy()->getDisplayName()),
@@ -331,7 +331,7 @@
 
       return self::newComment($comment, $ticket->getSubscribers());
     } // newTicketComment
-    
+
     /**
     * Send new comment notification to message subscriber
     *
@@ -344,7 +344,7 @@
       if (!($message instanceof ProjectMessage)) {
         throw new Error('Invalid comment object');
       } // if
-      
+
       $all_subscribers = $message->getSubscribers();
       return self::newComment($comment, $message->getSubscribers());
     } // newMessageComment
@@ -364,13 +364,13 @@
       if (!is_array($all_subscribers)) {
         return true; // no subscribers
       } // if
-      
+
       $recipients = array();
       foreach ($all_subscribers as $subscriber) {
         //if ($subscriber->getId() == $comment->getCreatedById()) {
         //  continue; // skip comment author
         //} // if
-        
+
         if ($comment->isPrivate() || $comment->getObject()->isPrivate()) {
           if ($subscriber->isMemberOfOwnerCompany()) {
             $recipients[] = self::prepareEmailAddress($subscriber->getEmail(), $subscriber->getDisplayName());
@@ -379,13 +379,13 @@
           $recipients[] = self::prepareEmailAddress($subscriber->getEmail(), $subscriber->getDisplayName());
         } // of
       } // foreach
-      
+
       if (!count($recipients)) {
         return true; // no recipients
       } // if
-      
+
       tpl_assign('new_comment', $comment);
-      
+
       return self::sendEmail(
         $recipients,
         self::prepareEmailAddress($comment->getCreatedBy()->getEmail(), $comment->getCreatedByDisplayName()),
@@ -399,7 +399,7 @@
     /**
     * Tests to see if $new_user is not the same as $old_user
     * if users are different return true so a notification can be sent
-    * otherwise return false so the notification can be avoided 
+    * otherwise return false so the notification can be avoided
     *
     * @param $new_user (optional) Newly assigned user (if applicable)
     * @param $old_user (optional) Previously assigned user (if applicable)
@@ -419,11 +419,11 @@
       } // if
       return false;
     }
-    
+
     // ---------------------------------------------------
     //  Milestone
     // ---------------------------------------------------
-    
+
     /**
     * Milestone has been assigned to the user
     *
@@ -438,9 +438,9 @@
       if (!($milestone->getAssignedTo() instanceof User)) {
         return true; // not assigned to user
       } // if
-      
+
       tpl_assign('milestone_assigned', $milestone);
-      
+
       return self::sendEmail(
         self::prepareEmailAddress($milestone->getAssignedTo()->getEmail(), $milestone->getAssignedTo()->getDisplayName()),
         self::prepareEmailAddress($milestone->getCreatedBy()->getEmail(), $milestone->getCreatedByDisplayName()),
@@ -464,13 +464,13 @@
         return true; // not assigned to user
       } // if
       if ($task->getCreatedBy() instanceof User) {
-        $from = self::prepareEmailAddress($task->getCreatedBy()->getEmail(), $task->getCreatedByDisplayName()); 
+        $from = self::prepareEmailAddress($task->getCreatedBy()->getEmail(), $task->getCreatedByDisplayName());
       } else {
-        $from = self::prepareEmailAddress(logged_user()->getEmail(), logged_user()->getDisplayName()); 
+        $from = self::prepareEmailAddress(logged_user()->getEmail(), logged_user()->getDisplayName());
       } // if
 
       tpl_assign('task_assigned', $task);
-      
+
       return self::sendEmail(
         self::prepareEmailAddress($task->getAssignedTo()->getEmail(), $task->getAssignedTo()->getDisplayName()),
         $from,
@@ -490,22 +490,22 @@
       if (!is_array($people) || !count($people)) {
         return; // nothing here...
       } // if
-    
+
       // normally, if comment on message, shouldn't be using this function by the normal subscription
       if (($comment->getObject() instanceof ProjectMessage)) {
         throw new Error('Invalid comment object');
       } // if
-              
+
       if (!is_array($people)) {
         return true; // no subscribers
       } // if
-      
+
       $recipients = array();
       foreach ($people as $subscriber) {
         //if ($subscriber->getId() == $comment->getCreatedById()) {
         //  continue; // skip comment author
         //} // if
-        
+
         if ($comment->isPrivate() || $comment->getObject()->isPrivate()) {
           if ($subscriber->isMemberOfOwnerCompany()) {
             $recipients[] = self::prepareEmailAddress($subscriber->getEmail(), $subscriber->getDisplayName());
@@ -514,13 +514,13 @@
           $recipients[] = self::prepareEmailAddress($subscriber->getEmail(), $subscriber->getDisplayName());
         } // of
       } // foreach
-      
+
       if (!count($recipients)) {
         return true; // no recipients
       } // if
-      
+
       tpl_assign('new_comment', $comment);
-      
+
       return self::sendEmail(
         $recipients,
         self::prepareEmailAddress($comment->getCreatedBy()->getEmail(), $comment->getCreatedByDisplayName()),
@@ -532,10 +532,10 @@
     // ---------------------------------------------------
     //  Util functions
     // ---------------------------------------------------
-    
+
     /**
-    * This function will prepare email address. It will return $name <$email> if both 
-    * params are presend and we are not in exchange compatibility mode. In other case 
+    * This function will prepare email address. It will return $name <$email> if both
+    * params are presend and we are not in exchange compatibility mode. In other case
     * it will just return email
     *
     * @param string $email
@@ -549,7 +549,7 @@
         return trim($email);
       } // if
     } // prepareEmailAddress
-    
+
     /**
     * Returns true if exchange compatible config option is set to true
     *
@@ -562,10 +562,10 @@
       } // if
       return self::$exchange_compatible;
     } // getExchangeCompatible
-    
+
     /**
     * Send an email using Swift (send commands)
-    * 
+    *
     * @param string to_address
     * @param string from_address
     * @param string subject
@@ -576,23 +576,23 @@
     */
     static function sendEmail($to, $from, $subject, $body = false, $type = 'text/plain', $encoding = '8bit') {
     //static function sendEmail($to, $from, $subject, $body = false, $type = 'text/html', $encoding = '') {
-   
+
       Env::useLibrary('swift');
-      
+
       $mailer = self::getMailer();
       if (!($mailer instanceof Swift)) {
         throw new NotifierConnectionError();
       } // if
 
-      /** 
+      /**
       * If the 'expose user e-mail' flag is cleared, then replace the user's
       * email with the site e-mail.
       */
       if (config_option('mail_expose_user_emails', 0)==0) {
         $from = self::getSiteEmailAddress();
       }
-     
-      /** 
+
+      /**
       * Set name address in ReplyTo, some MTA think we're usurpators
       * (which is quite true actually...)
       * We only do this if we aren't already set to use the site e-mail for
@@ -616,10 +616,10 @@
 
       $result = $mailer->send($to, $from, $subject, $body, $type, $encoding);
       $mailer->close();
-      
+
       return $result;
     } // sendEmail
-    
+
     /**
     * This function will return the e-mail address that should be used as the 'from'
     * address, if we are using the site address, rather than a user's own address.
@@ -650,12 +650,12 @@
             }
             $display_name = $default_name;
         }
-        
+
         return self::prepareEmailAddress($site_email, $display_name);
     }
 
     /**
-    * This function will return SMTP connection. It will try to load options from 
+    * This function will return SMTP connection. It will try to load options from
     * config and if it fails it will use settings from php.ini
     *
     * @param void
@@ -663,15 +663,15 @@
     */
     static function getMailer() {
       $mail_transport_config = config_option('mail_transport', self::MAIL_TRANSPORT_MAIL);
-      
+
       // Emulate mail() - use NativeMail
       if ($mail_transport_config == self::MAIL_TRANSPORT_MAIL) {
         $mailer = new Swift(new Swift_Connection_NativeMail());
         return $mailer->isConnected() ? $mailer : null;
-        
+
       // Use SMTP server
       } elseif ($mail_transport_config == self::MAIL_TRANSPORT_SMTP) {
-        
+
         // Load SMTP config
         $smtp_server = config_option('smtp_server');
         $smtp_port = config_option('smtp_port', 25);
@@ -681,7 +681,7 @@
           $smtp_username = config_option('smtp_username');
           $smtp_password = config_option('smtp_password');
         } // if
-        
+
         switch ($smtp_secure_connection) {
           case self::SMTP_SECURE_CONNECTION_SSL:
             $transport = SWIFT_SSL;
@@ -692,14 +692,14 @@
           default:
             $transport = SWIFT_OPEN;
         } // switch
-        
+
         $mailer = new Swift(new Swift_Connection_SMTP($smtp_server, $smtp_port, $transport));
         if (!$mailer->isConnected()) {
           return null;
         } // if
-        
+
         $mailer->setCharset('UTF-8');
-        
+
         if ($smtp_authenticate) {
           if ($mailer->authenticate($smtp_username, $smtp_password)) {
             return $mailer;
@@ -709,12 +709,12 @@
         } else {
           return $mailer;
         } // if
-        
+
       // Somethings wrong here...
       } else {
         return null;
       } // if
     } // getMailer
-  
-  } // Notifier  
+
+  } // Notifier
 ?>
