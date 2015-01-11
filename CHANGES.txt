@@ -4,6 +4,27 @@ ProjectPier Change Log
 ~~~~~~~~~~~~~~~~~~~~~~
 
 ---------------------------------------
+Version 0.9.0 Date TBD (updating as
+  previous check-ins are tested.)
+---------------------------------------
+- Changed (Core)     - MyTasks list now looks more like the regular "task list" page (commit 254 & 255).
+- Changed (core)     - Content blocks no longer collapse/expand by clicking anywhere within the block,
+                       this is now limited to when the user clicks on the block header only (commit 253).
+- Added   (time)     - Client users can now access the "time" plugin if granted permission (commit 252).
+- Added   (tickets)  - Tickets can now be deleted via a "delete ticket" button at the top of
+                       the "edit ticket" screen (commit 251).  
+- Added   (tickets)  - Tickets can be added by client company users (commit 251).
+- Changed (core)     - Project overview screen now lists contact's "Display Name" instead of
+                       their "Username" (commit 250).
+- Changed (core)     - Fixed MySQL character set issue with installer (commit 249)
+- Changed (core)     - Modified the pop-up date picker to allow specifying a time in addition 
+                       to a date (commit 248)
+- Added   (core)     - Client users can be given permission to manage own projects (commit 241)
+- Changed (i18n)     - Enhancements to language dev module (commit 239 & 240)
+- Changed (core)     - Remove permissions assignment from create user page (commmit 238 and 242)
+- Changed (language) - Complete translation to dutch (Engelbert EB10 and EB11)
+
+---------------------------------------
 Version 0.8.8 SP2 Jan 29, 2012
 ---------------------------------------
 
