@@ -38,6 +38,7 @@
     'existing company' => 'Existing company',
     'memo' => 'My Project Note',
     'no folders' => 'No folders',
+    'installation' => "Installation",
     
     // Variations
     'owner company' => 'Owner company',
