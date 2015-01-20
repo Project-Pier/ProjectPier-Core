@@ -20,7 +20,7 @@
   if ($cc = $task_list->countComments()) {
     $task_list_options[] = '<span><a href="'. $task_list->getViewUrl() .'#objectComments">'. lang('comments') .'('. $cc .')</a></span>';
   }
-  $task_list_options[] = '<span><a href="'. $task_list->getDownloadUrl() .'">'. lang('download') . '</a></span>';
+  $task_list_options[] = '<span><a href="'. $task_list->getDownloadUrl('txt') .'">'. lang('download') . '</a></span>';
   $task_list_options[] = '<span><a href="'. $task_list->getDownloadUrl('pdf') .'">'. lang('pdf') . '</a></span>';
 ?>
 <div class="taskList">
