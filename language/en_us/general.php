@@ -257,6 +257,7 @@
     'seconds' => 'seconds',
 
     'radio' => 'radio',
+    'recover last input' => 'Recover last input',
   ); // array
 
 ?>
