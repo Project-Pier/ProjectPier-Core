@@ -1,0 +1,9 @@
+Copy a plugin here to make it available to be enabled. 
+
+Enable plugins via the administrator menu (Administration > Plugins).
+
+Example directory structures:
+  application/plugins/files/
+  application/plugins/forms/
+  
+Note: Plugins are maintained in their own repositories.
