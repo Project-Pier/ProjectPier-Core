@@ -1,0 +1,7 @@
+Copy a translation here to make it available for use. 
+
+Example directory structures:
+  /language/en_us
+  /language/es_es
+  
+Note: Plugins are maintained in their own repositories.
