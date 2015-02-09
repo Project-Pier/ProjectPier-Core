@@ -1,22 +1,65 @@
 # Auto detect text files and perform LF normalization
+# http://davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-a-git-ninja/
 * text=auto
 
-# Custom for Visual Studio
-*.cs     diff=csharp
-*.sln    merge=union
-*.csproj merge=union
-*.vbproj merge=union
-*.fsproj merge=union
-*.dbproj merge=union
-
-# Standard to msysgit
-*.doc	 diff=astextplain
-*.DOC	 diff=astextplain
+# These files are text and should be normalized (Convert crlf => lf)
+*.php text
+*.css text
+*.js text
+*.htm text
+*.html text
+*.xml text
+*.txt text
+*.ini text
+*.inc text
+.htaccess text
+ 
+# These files are binary and should be left untouched
+# (binary is a macro for -text -diff)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.flv binary
+*.fla binary
+*.swf binary
+*.gz binary
+*.zip binary
+*.7z binary
+*.ttf binary
+ 
+# Documents
+*.doc  diff=astextplain
+*.DOC  diff=astextplain
 *.docx diff=astextplain
 *.DOCX diff=astextplain
 *.dot  diff=astextplain
 *.DOT  diff=astextplain
 *.pdf  diff=astextplain
-*.PDF	 diff=astextplain
-*.rtf	 diff=astextplain
-*.RTF	 diff=astextplain
+*.PDF  diff=astextplain
+*.rtf  diff=astextplain
+*.RTF  diff=astextplain
+
+# TODO: tweak below this line!
+# used to remove files from deployment using `git archive`
+# git files
+.gitattributes export-ignore
+.gitignore export-ignore
+# bot files
+build.make export-ignore
+patches.txt export-ignore
+# general text files
+*README.md export-ignore
+*LICENSE.txt export-ignore
+*INSTALL.txt export-ignore
+*CHANGEs.txt export-ignore
+*PLUGINS.txt export-ignore
+*UPGRADE.txt export-ignore
+# patches
+*.patch export-ignore
+# tests
+*.test export-ignore
