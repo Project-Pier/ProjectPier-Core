@@ -1,0 +1,10 @@
+Copy a theme here to make it available for use. 
+
+Switch themes via the administrator menu (Administration > 
+Configuration > General).
+
+Example directory structures:
+  public/assets/themes/marine/
+  public/assets/themes/kampPro2
+  
+Note: Themes are maintained in their own repositories.

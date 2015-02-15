@@ -1,9 +1,0 @@
-#configCategoryOptions .configCategoryOption { margin: 8px 0; padding: 5px; }
-#configCategoryOptions label { margin: 0; padding: 0; }
-#configCategoryOptions .configOptionLabel { float: left; width: 230px; }
-#configCategoryOptions .configOptionControl { margin-left: 240px; }
-#configCategoryOptions textarea { width: 24em; }
-#configCategoryOptions input { width: 24em; height: 20px; }
-#configCategoryOptions select{ width: 25em; height: 25px; }
-#configCategoryOptions .yes_no { width: auto; }
-#configCategoryOptions .desc { clear: both; }
