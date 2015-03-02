@@ -40,7 +40,7 @@
 <?php   if ($task->getDueDate()->getYear() > DateTimeValueLib::now()->getYear()) { ?>
       <div class="dueDate"><span><?php echo lang('due date') ?>:</span> <?php echo format_date($task->getDueDate(), null, 0) ?> @ <?php echo format_time($task->getDuetDate(), null, 0) ?></div>
 <?php   } else { ?>
-      <div class="dueDate"><span><?php echo lang('due date') ?>:</span> <?php echo format_descriptive_date($task->getDueDate(), 0) ?> @ <?php echo format_time($task->getDuetDate(), null, 0) ?></div>
+      <div class="dueDate"><span><?php echo lang('due date') ?>:</span> <?php echo format_descriptive_date($task->getDueDate(), 0) ?> @ <?php echo format_time($task->getDueDate(), null, 0) ?></div>
 <?php   } // if ?>
 <?php } // if ?>
 	  <?php if($task->getAssignedTo()) { ?>
