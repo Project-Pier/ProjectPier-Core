@@ -65,5 +65,5 @@ foreach ($contacts as $contact) {
 <?php } // foreach ?>
 </div>
 <?php } else { ?>
-  <div><?php echo lang('no search result for', $search_term) ?></div>
+  <div><?php echo lang('no search result for', clean($search_term)) ?></div>
 <?php } // if ?>
