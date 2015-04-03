@@ -31,5 +31,5 @@
 <?php } // if ?>
 
 <?php } else { ?>
-<p><?php echo lang('no search result for', $search_string) ?></p>
+<p><?php echo lang('no search result for', clean($search_string)) ?></p>
 <?php } // if ?>

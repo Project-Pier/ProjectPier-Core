@@ -70,5 +70,5 @@ if (is_array($contacts)) {
   <div id="contactsPaginationBottom"><?php echo advanced_pagination($contacts_pagination, get_url('dashboard', 'search_contacts', array('search_for' => $search_term, 'page' => '#PAGE#'))) ?></div>
 </div>
 <?php } else { ?>
-  <div><?php echo lang('no search result for', $search_term) ?></div>
+  <div><?php echo lang('no search result for', clean($search_term)) ?></div>
 <?php } // if ?>
