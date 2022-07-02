@@ -331,7 +331,7 @@
     * @return null
     */
     function setYear($value) {
-      $this->year = (integer) $year;
+      $this->year = (integer) $value;
       $this->setTimestampFromAttributes();
     } // setYear
     

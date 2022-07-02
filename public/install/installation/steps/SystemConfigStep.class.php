@@ -74,40 +74,43 @@
         $database_create  = (string) array_var($config_form_data, 'database_create');
         $database_charset = (string) array_var($config_form_data, 'database_charset');
         $database_prefix  = (string) array_var($config_form_data, 'database_prefix');
-        
-        if ($this->database_connection = @mysql_connect($database_host, $database_user, $database_pass)) {
+        //mysqli_real_escape_string
+        if ($this->database_connection = mysqli_connect($database_host, $database_user, $database_pass)) {
           // ---------------------------------------------------
           //  Check if we have at least 4.1
           // ---------------------------------------------------
-          $mysql_version = mysql_get_server_info($this->database_connection);
+          $mysql_version = mysqli_get_server_info($this->database_connection);
           if ($mysql_version && version_compare($mysql_version, '4.1', '>=')) {
             $this->addToStorage('database_type', $database_type);
             $this->addToStorage('database_host', $database_host);
             $this->addToStorage('database_user', $database_user);
             $this->addToStorage('database_pass', $database_pass);
             $try_select = true;
+  if (!$this->database_connection) {
+      die("Connection failed: " . mysqli_connect_error());
+  }
             if ($database_create=='yes') {
               $try_select = false;
-              if (@mysql_select_db(array_var($config_form_data, 'database_name'), $this->database_connection)) {
+              if (@mysqli_select_db($this->database_connection, $database_name)) {
                   $this->addError("Database create failed, $database_name exists. Choose another name or uncheck create option.");
               } else {
-                $sql = "CREATE DATABASE `$database_name`";
-                if (mysql_query($sql, $this->database_connection)) {
+                $sql = "CREATE DATABASE $database_name";
+                if (mysqli_query($this->database_connection, $sql)) {
                   $try_select = true;
                 } else {
-                  $this->addError('Error creating database: ' . mysql_error() );
+                  $this->addError('Error creating database: ' . mysqli_error() );
                 }
               }
             }
             if ($try_select) {
-              if (@mysql_select_db(array_var($config_form_data, 'database_name'), $this->database_connection)) {
+              if (mysqli_select_db($this->database_connection, $database_name)) {
                 $this->addToStorage('database_name', $database_name);
                 $this->addToStorage('database_charset', $database_charset);
                 $this->addToStorage('database_prefix', $database_prefix);
 
                 $exist = 0;
-                $result = @mysql_query("show tables like '$database_prefix%'", $this->database_connection);
-                while ($row = @mysql_fetch_row($result)) {
+                $result = @mysqli_query($this->database_connection,"show tables like '$database_prefix%'");
+                while ($row = @mysqli_fetch_row($result)) {
                   $exist++;
                 }
                 if ($exist==0) {
@@ -193,7 +196,7 @@
       $total_queries = count($queries);
       foreach ($queries as $query) {
         if (trim($query)) {
-          if (@mysql_query(trim($query))) {
+          if (@mysqli_query($this->database_connection, trim($query))) {
             $executed_queries++;
           } else {
             return false;

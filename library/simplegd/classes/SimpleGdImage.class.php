@@ -144,7 +144,7 @@
         case IMAGETYPE_PNG:
           imagepng($this->resource, $this->getSource());
           break;
-        case IMAGETYPE_JPG:
+        case IMAGETYPE_JPEG:
           imagejpeg($this->resource, $this->getSource(), 80);
           break;
         case IMAGETYPE_GIF:
@@ -271,8 +271,8 @@
         return false;
       }
       
-      $width = (integer) $width > 0 ? (integer) $width : 1;
-      $height = (integer) $height > 0 ? (integer) $height : 1;
+      $new_width = (integer) $width > 0 ? (integer) $width : 1;
+      $new_height = (integer) $height > 0 ? (integer) $height : 1;
       
       switch($this->getImageType()) {
         case IMAGETYPE_GIF:

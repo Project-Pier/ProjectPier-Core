@@ -98,14 +98,16 @@
       'name'    => DB_NAME,
       'persist' => DB_PERSIST
     )); // connect
+    //TODO: check connection
     if (defined('DB_CHARSET') && trim(DB_CHARSET)) {
-      DB::attempt("SET NAMES ? COLLATE ?", DB_CHARSET, 'utf8_unicode_ci');
+        $g = sprintf("SET NAMES %s COLLATE %s", DB_CHARSET, 'utf8_unicode_ci');
+      DB::attempt($g);
     } // if
     DB::attempt('ROLLBACK');
     DB::attempt('UNLOCK TABLES');
     DB::attempt('SET AUTOCOMMIT=1');
     DB::attempt("SET SQL_MODE=''");
-    DB::attempt("SET STORAGE_ENGINE=INNODB");
+    DB::attempt("SET DEFAULT_STORAGE_ENGINE=INNODB");
     //
     //Failed to import file '/home/sharec/public_html/pp088/tmp/Riot.zip' to the file repository (unique file id: a25a6e76db0b741ec4f30d6bbae79db37024c28a)
     // DB::execute('SET SESSION max_allowed_packet=16777216');  // 16 MB

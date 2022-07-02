@@ -21,7 +21,7 @@
     *
     * @var string
     */
-    private $database_type = 'mysql';
+    private $database_type = 'mysqli';
     
     /**
     * Database host
@@ -93,8 +93,8 @@
       $installkey       = sha1(date('l dS \of F Y h:i:s A').$_SERVER['REMOTE_ADDR'].rand(10000,99999));
       
       $connected = false;
-      if ($this->database_connection = @mysql_connect($database_host, $database_user, $database_pass)) {
-        $connected = @mysql_select_db($database_name, $this->database_connection);
+      if ($this->database_connection = @mysqli_connect($database_host, $database_user, $database_pass)) {
+        $connected = @mysqli_select_db($this->database_connection, $database_name);
       } // if
       
       if ($connected) {
@@ -106,7 +106,7 @@
       // ---------------------------------------------------
       //  Check if we have at least 4.1
       // ---------------------------------------------------
-      $mysql_version = mysql_get_server_info($this->database_connection);
+      $mysql_version = mysqli_get_server_info($this->database_connection);
       if ($mysql_version && version_compare($mysql_version, '4.1', '<')) {
         $this->breakExecution('MySQL version is '.$mysql_version.'. PP needs 4.1 or higher. Choose another MySQL server or upgrade.');
       }
@@ -150,7 +150,7 @@
       if ($this->executeMultipleQueries(tpl_fetch(get_template_path('db/mysql/schema.php')), $total_queries, $executed_queries)) {
         $this->printMessage("Database '$database_name' setup. (Queries executed: $executed_queries)");
       } else {
-        return $this->breakExecution('Failed to setup database. Reason: ' . mysql_error($this->database_connection));
+        return $this->breakExecution('Failed to setup database. Reason: ' . mysqli_error($this->database_connection));
       } // if
       
       // Initial data
@@ -159,10 +159,10 @@
       if ($this->executeMultipleQueries(tpl_fetch(get_template_path('db/mysql/initial_data.php')), $total_queries, $executed_queries)) {
         $this->printMessage("Database '$database_name' initialized. (Queries executed: $executed_queries)");
       } else {
-        return $this->breakExecution('Failed to initialize database. Reason: ' . mysql_error($this->database_connection));
+        return $this->breakExecution('Failed to initialize database. Reason: ' . mysqli_error($this->database_connection));
       } // if
       
-      @mysql_query('COMMIT', $this->database_connection);
+      @mysqli_query($this->database_connection,'COMMIT');
       
       if ($this->writeConfigFile($constants)!==false) {
         $this->printMessage('Configuration saved');
@@ -199,7 +199,7 @@
     function breakExecution($error_message) {
       $this->printMessage($error_message, true);
       if (is_resource($this->database_connection)) {
-        @mysql_query('ROLLBACK', $this->database_connection);
+        @mysqli_query($this->database_connection,'ROLLBACK');
       } // if
       return false;
     } // breakExecution
@@ -288,7 +288,7 @@
       $total_queries = count($queries);
       foreach ($queries as $query) {
         if (trim($query)) {
-          if (@mysql_query(trim($query))) {
+          if (@mysqli_query($this->database_connection, trim($query))) {
             $executed_queries++;
           } else {
             return false;

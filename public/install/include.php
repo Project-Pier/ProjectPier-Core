@@ -12,7 +12,8 @@
 
   session_start();
   error_reporting(E_ALL);
-  
+  mysqli_report(MYSQLI_REPORT_OFF);
+
   if (function_exists('date_default_timezone_set')) {
     date_default_timezone_set('GMT');
   } // if

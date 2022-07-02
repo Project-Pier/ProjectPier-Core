@@ -8,7 +8,7 @@
     <td class="optionLabel"><label for="configFormDatabaseType">Database type:</label></td>
     <td>
       <select name="config_form[database_type]" id="configFormDatabaseType">
-        <option value="mysql">MySQL</option>
+        <option value="mysql">MySQL</option><option value="mysqli">MySQLi</option>
       </select>
     </td>
   </tr>

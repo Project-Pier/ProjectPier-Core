@@ -44,8 +44,9 @@
       
       $this->check_extensions = array(
         'session' => true, 
-        'mysql' => true, 
-        'calendar' => false, 
+        'mysql' => false,
+        'mysqli' => false,
+        'calendar' => false,
         'gd' => false, 
         'simplexml' => false,
         'ldap' => false,
