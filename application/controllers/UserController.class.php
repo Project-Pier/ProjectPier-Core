@@ -41,7 +41,7 @@
     function delete() {
       $this->setTemplate('del_user');
 
-      $user = Users::findById(get_id());
+      $user = Users::instance()->findById(get_id());
       if (!($user instanceof User)) {
         flash_error(lang('user dnx'));
         $this->redirectTo('administration');

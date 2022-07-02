@@ -26,8 +26,6 @@
       $this->addHelper('project_website');
     } // __construct
 
-
-
     /**
     * Support login with url parameters (single sign on)
     *
@@ -38,7 +36,7 @@
       trace(__FILE__,'sso() - begin');
       $this->setTemplate('login', 'access');
       //$GLOBALS['$_POST']=array();
-      $_POST['login']['username']=@$_GET['username'];
+      $_POST['login']['username']=@$_GET['username'];//TODO: Important.
       $_POST['login']['password']=@$_GET['password'];
       $_POST['login']['remember']=@$_GET['remember'];
       $this->login();
@@ -53,7 +51,7 @@
     */
     function login() {
       trace(__FILE__,'login()');
-
+      $this->setTemplate('login');
       if (function_exists('logged_user') && (logged_user() instanceof User)) {
         trace(__FILE__, 'login() - redirectTo(dashboard) because already logged in' );
         $this->redirectTo('dashboard');
@@ -196,16 +194,16 @@
     function complete_installation() {
       if (Companies::getOwnerCompany() instanceof Company) {
         die('Owner company already exists'); // Somebody is trying to access this method even if the user already exists
-      } // if
-      $this->setLayout('complete_install');
-      $form_data = array_var($_POST, 'form');
+      } // i
+      //$this->setLayout('complete_install');
+      $this->setTemplate('complete_installation');
+      $form_data = array_var($_POST, 'form');;
       tpl_assign('form_data', $form_data);
-      
       if (array_var($form_data, 'submitted') == 'submitted') {
         try {
           $admin_password = trim(array_var($form_data, 'admin_password'));
           $admin_password_a = trim(array_var($form_data, 'admin_password_a'));
-          
+
           if (trim($admin_password) == '') {
             throw new Error(lang('password value required'));
           } // if
@@ -213,12 +211,10 @@
           if ($admin_password <> $admin_password_a) {
             throw new Error(lang('passwords dont match'));
           } // if
-          
           DB::beginWork();
           
-          Users::delete(); // clear users table
-          Companies::delete(); // clear companies table
-          
+          Users::instance()->delete(); // clear users table
+          Companies::instance()->delete(); // clear companies table
           // Create the administrator user
           $administrator = new User();
           $administrator->setId(1);
@@ -227,9 +223,8 @@
           $administrator->setPassword($admin_password);
           $administrator->setIsAdmin(true);
           $administrator->setAutoAssign(true);
-          
           $administrator->save();
-          
+
           // Create the contact for administrator
           $administrator_contact = new Contact();
           $administrator_contact->setId(1);
@@ -249,15 +244,12 @@
           $company->save();
           
           DB::commit();
-          
           $this->redirectTo('access', 'login');
         } catch(Exception $e) {
-          tpl_assign('error', $e);
+          tpl_assign('error', $e);echo "eee";
           DB::rollback();
         } // try
       } // if
     } // complete_installation
-  
   } // AccessController
-
 ?>
