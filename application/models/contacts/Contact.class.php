@@ -75,7 +75,7 @@
     */
     function isProjectUser(Project $project) {
       if (!isset($this->is_project_user_cache[$project->getId()])) {
-        $project_user = ProjectUsers::findById(array(
+        $project_user = ProjectUsers::instance()->findById(array(
           'project_id' => $project->getId(), 
           'user_id' => $this->getId())
         ); // findById
@@ -144,7 +144,7 @@
     * @return Company
     */
     function getCompany() {
-      $company = Companies::findById($this->getCompanyId());
+      $company = Companies::instance()->findById($this->getCompanyId());
       if ($company) return $company;
       return new Company();
     } // getCompany
@@ -157,7 +157,7 @@
     */
     function getUserAccount() {
       if (is_null($this->user)) {
-        $this->user = Users::findById($this->getUserId());
+        $this->user = Users::instance()->findById($this->getUserId());
       } // if
       return $this->user;
     } // getUser
@@ -207,7 +207,7 @@
     * @return boolean
     */
     function hasImValue() {
-      return ContactImValues::count('`contact_id` = ' . DB::escape($this->getId()));
+      return ContactImValues::instance()->count('`contact_id` = ' . DB::escape($this->getId()));
     } // hasImValue
     
     /**
@@ -229,7 +229,7 @@
     * @return string
     */
     function getImValue(ImType $im_type) {
-      $im_value = ContactImValues::findById(array('contact_id' => $this->getId(), 'im_type_id' => $im_type->getId()));
+      $im_value = ContactImValues::instance()->findById(array('contact_id' => $this->getId(), 'im_type_id' => $im_type->getId()));
       return $im_value instanceof ContactImValue && (trim($im_value->getValue()) <> '') ? $im_value->getValue() : null;
     } // getImValue
     
@@ -377,7 +377,7 @@
     * @param Company $to Can user add user to this company
     * @return boolean
     */
-    function canAdd(User $user, Company $to = null) {
+    static function canAdd(User $user, Company $to = null) {
       if ($user->isAccountOwner()) {
         return true;
       } // if
@@ -795,7 +795,7 @@
       $this->deleteAvatar();
       $this->clearImValues();
       if ($this->hasUserAccount()) {
-        ProjectUsers::clearByUser($this->getUserAccount());
+        ProjectUsers::instance()->clearByUser($this->getUserAccount());
         MessageSubscriptions::clearByUser($this->getUserAccount());
         $this->getUserAccount()->delete();
       } // if

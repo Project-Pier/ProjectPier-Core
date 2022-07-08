@@ -226,7 +226,7 @@
     *
     * @return ProjectUserPermissions 
     */
-    function instance() {
+  static function instance() {
       static $instance;
       if (!instance_of($instance, 'ProjectUserPermissions')) {
         $instance = new ProjectUserPermissions();

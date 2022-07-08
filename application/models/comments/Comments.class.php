@@ -17,12 +17,12 @@
     */
     static function getCommentsByObject(ProjectDataObject $object, $exclude_private = false) {
       if ($exclude_private) {
-        return self::findAll(array(
+        return self::instance()->findAll(array(
           'conditions' => array('`rel_object_id` = ? AND `rel_object_manager` = ? AND `is_private` = ?', $object->getObjectId(), get_class($object->manager()), 0),
           'order' => '`created_on`'
         )); // array
       } else {
-        return self::findAll(array(
+        return self::instance()->findAll(array(
           'conditions' => array('`rel_object_id` = ? AND `rel_object_manager` = ?', $object->getObjectId(), get_class($object->manager())),
           'order' => '`created_on`'
         )); // array
@@ -38,9 +38,9 @@
     */
     static function countCommentsByObject(ProjectDataObject $object, $exclude_private = false) {
       if ($exclude_private) {
-        return self::count(array('`rel_object_id` = ? AND `rel_object_manager` = ? AND `is_private` = ?', $object->getObjectId(), get_class($object->manager()), 0));
+        return self::instance()->count(array('`rel_object_id` = ? AND `rel_object_manager` = ? AND `is_private` = ?', $object->getObjectId(), get_class($object->manager()), 0));
       } else {
-        return self::count(array('`rel_object_id` = ? AND `rel_object_manager` = ?', $object->getObjectId(), get_class($object->manager())));
+        return self::instance()->count(array('`rel_object_id` = ? AND `rel_object_manager` = ?', $object->getObjectId(), get_class($object->manager())));
       } // if
     } // countCommentsByObject
   
@@ -51,7 +51,7 @@
     * @return boolean
     */
     static function dropCommentsByObject(ProjectDataObject $object) {
-      return Comments::delete(array('`rel_object_manager` = ? AND `rel_object_id` = ?', get_class($object->manager()), $object->getObjectId()));
+      return Comments::instance()->delete(array('`rel_object_manager` = ? AND `rel_object_id` = ?', get_class($object->manager()), $object->getObjectId()));
     } // dropCommentsByObject
     
   } // Comments 

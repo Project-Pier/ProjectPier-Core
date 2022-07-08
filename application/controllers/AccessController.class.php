@@ -246,7 +246,7 @@
           DB::commit();
           $this->redirectTo('access', 'login');
         } catch(Exception $e) {
-          tpl_assign('error', $e);echo "eee";
+          tpl_assign('error', $e);
           DB::rollback();
         } // try
       } // if

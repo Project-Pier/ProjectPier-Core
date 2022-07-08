@@ -22,7 +22,7 @@
     * @return array
     */
     static function getAll($order_by = self::ORDER_BY_NAME) {
-      return Projects::findAll(array(
+      return Projects::instance()->findAll(array(
         'order' => $order_by
       )); // findAll
     } // getAll
@@ -34,7 +34,7 @@
     * @return null
     */
     static function getActiveProjects($order_by = self::ORDER_BY_NAME) {
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`completed_on` = ?', EMPTY_DATETIME),
         'order' => $order_by,
       )); // findAll
@@ -47,7 +47,7 @@
     * @return array
     */
     static function getFinishedProjects($order_by = self::ORDER_BY_NAME) {
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`completed_on` > ?', EMPTY_DATETIME),
         'order' => $order_by,
       )); // findAll

@@ -224,7 +224,7 @@
     *
     * @return UserImValues 
     */
-    function instance() {
+  static function instance() {
       static $instance;
       if (!instance_of($instance, 'UserImValues')) {
         $instance = new UserImValues();

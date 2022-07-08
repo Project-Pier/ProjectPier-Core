@@ -47,7 +47,7 @@ class TaskController extends ApplicationController {
   * @return null
   */
   function download_list() {
-    $task_list = ProjectTaskLists::findById(get_id());
+    $task_list = ProjectTaskLists::instance()->findById(get_id());
     if (!($task_list instanceof ProjectTaskList)) {
       flash_error(lang('task list dnx'));
       $this->redirectTo('task');
@@ -237,7 +237,7 @@ class TaskController extends ApplicationController {
   */
   function view_list() {
     $this->addHelper('textile');
-    $task_list = ProjectTaskLists::findById(get_id());
+    $task_list = ProjectTaskLists::instance()->findById(get_id());
     if (!($task_list instanceof ProjectTaskList)) {
       flash_error(lang('task list dnx'));
       $this->redirectTo('task');
@@ -400,7 +400,7 @@ class TaskController extends ApplicationController {
   function edit_list() {
     $this->setTemplate('add_list');
 
-    $task_list = ProjectTaskLists::findById(get_id());
+    $task_list = ProjectTaskLists::instance()->findById(get_id());
     if (!($task_list instanceof ProjectTaskList)) {
       flash_error(lang('task list dnx'));
       $this->redirectTo('task');
@@ -473,7 +473,7 @@ class TaskController extends ApplicationController {
   */
   function copy_list() {
 
-    $task_list = ProjectTaskLists::findById(get_id());
+    $task_list = ProjectTaskLists::instance()->findById(get_id());
     if (!($task_list instanceof ProjectTaskList)) {
       flash_error(lang('task list dnx'));
       $this->redirectTo('task', 'index');
@@ -536,7 +536,7 @@ class TaskController extends ApplicationController {
   function move_list() {
     $this->setTemplate('move_list');
 
-    $task_list = ProjectTaskLists::findById(get_id());
+    $task_list = ProjectTaskLists::instance()->findById(get_id());
     if (!($task_list instanceof ProjectTaskList)) {
       flash_error(lang('task list dnx'));
       $this->redirectTo('task', 'index');
@@ -553,7 +553,7 @@ class TaskController extends ApplicationController {
 
     if (is_array($move_data)) {
       $target_project_id = $move_data['target_project_id'];
-      $target_project = Projects::findById($target_project_id);
+      $target_project = Projects::instance()->findById($target_project_id);
       if (!($target_project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectToUrl($task_list->getMoveUrl());
@@ -590,7 +590,7 @@ class TaskController extends ApplicationController {
   function delete_list() {
     $this->setTemplate('del_list');
 
-    $task_list = ProjectTaskLists::findById(get_id());
+    $task_list = ProjectTaskLists::instance()->findById(get_id());
     if (!($task_list instanceof ProjectTaskList)) {
       flash_error(lang('task list dnx'));
       $this->redirectTo('task');
@@ -647,7 +647,7 @@ class TaskController extends ApplicationController {
   * @return null
   */
   function reorder_tasks() {
-    $task_list = ProjectTaskLists::findById(get_id('task_list_id'));
+    $task_list = ProjectTaskLists::instance()->findById(get_id('task_list_id'));
     if (!($task_list instanceof ProjectTaskList)) {
       flash_error(lang('task list dnx'));
       $this->redirectTo('task');
@@ -700,7 +700,7 @@ class TaskController extends ApplicationController {
   * @return null
   */
   function add_task() {
-    $task_list = ProjectTaskLists::findById(get_id('task_list_id'));
+    $task_list = ProjectTaskLists::instance()->findById(get_id('task_list_id'));
     if (!($task_list instanceof ProjectTaskList)) {
       flash_error(lang('task list dnx'));
       $this->redirectTo('task');
@@ -805,7 +805,7 @@ class TaskController extends ApplicationController {
   function edit_task() {
     $this->setTemplate('add_task');
 
-    $task = ProjectTasks::findById(get_id());
+    $task = ProjectTasks::instance()->findById(get_id());
     if (!($task instanceof ProjectTask)) {
       flash_error(lang('task dnx'));
       $this->redirectTo('task');
@@ -867,7 +867,7 @@ class TaskController extends ApplicationController {
         if ($new_task_list_id && ($task->getTaskListId() <> $new_task_list_id)) {
 
           // Move!
-          $new_task_list = ProjectTaskLists::findById($new_task_list_id);
+          $new_task_list = ProjectTaskLists::instance()->findById($new_task_list_id);
           if ($new_task_list instanceof ProjectTaskList) {
             $task_list->detachTask($task, $new_task_list); // detach from old and attach to new list
           } // if
@@ -919,7 +919,7 @@ class TaskController extends ApplicationController {
     $this->addHelper('textile');
 
     // taken from edit_task - htv
-    $task = ProjectTasks::findById(get_id());
+    $task = ProjectTasks::instance()->findById(get_id());
     if(!($task instanceof ProjectTask)) {
       flash_error(lang('task dnx'));
       $this->redirectTo('task');
@@ -962,7 +962,7 @@ class TaskController extends ApplicationController {
   function delete_task() {
     $this->setTemplate('del_task');
 
-    $task = ProjectTasks::findById(get_id());
+    $task = ProjectTasks::instance()->findById(get_id());
     if (!($task instanceof ProjectTask)) {
       flash_error(lang('task dnx'));
       $this->redirectTo('task');
@@ -1027,7 +1027,7 @@ class TaskController extends ApplicationController {
   * @return null
   */
   function complete_task() {
-    $task = ProjectTasks::findById(get_id());
+    $task = ProjectTasks::instance()->findById(get_id());
     if (!($task instanceof ProjectTask)) {
       flash_error(lang('task dnx'));
       $this->redirectTo('task');
@@ -1072,7 +1072,7 @@ class TaskController extends ApplicationController {
   * @return null
   */
   function open_task() {
-    $task = ProjectTasks::findById(get_id());
+    $task = ProjectTasks::instance()->findById(get_id());
     if (!($task instanceof ProjectTask)) {
       flash_error(lang('task dnx'));
       $this->redirectTo('task');
@@ -1117,7 +1117,7 @@ class TaskController extends ApplicationController {
   * @return null
   */
   function edit_score() {
-    $task = ProjectTasks::findById(get_id());
+    $task = ProjectTasks::instance()->findById(get_id());
     if (!($task instanceof ProjectTask)) {
       flash_error(lang('task dnx'));
       //$this->redirectTo('task');

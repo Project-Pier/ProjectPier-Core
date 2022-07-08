@@ -10,7 +10,7 @@ $names = array();
 $source_id=0;
 $name_id=0;
 
-$xpermissions = Permissions::findAll(); // findAll
+$xpermissions = Permissions::instance()->findAll(); // findAll
 if (is_array($permissions)) {
   foreach ($xpermissions as $permission) {
     $source_id++;  

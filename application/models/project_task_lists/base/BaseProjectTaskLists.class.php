@@ -239,7 +239,7 @@
     *
     * @return ProjectTaskLists 
     */
-    function instance() {
+    static function instance() {
       static $instance;
       if (!instance_of($instance, 'ProjectTaskLists')) {
         $instance = new ProjectTaskLists();

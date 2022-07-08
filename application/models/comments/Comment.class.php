@@ -156,7 +156,7 @@
     * @param Project $project
     * @return boolean
     */
-    function canAdd(User $user, Project $project) {
+    static function canAdd(User $user, Project $project) {
       return false;
     } // canAdd
     

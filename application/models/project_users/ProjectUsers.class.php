@@ -124,8 +124,8 @@
     */
     static function clearByUser(User $user) {
       // project_id 0 means permission outside any project like can manage projects
-      ProjectUserPermissions::delete(array('`user_id` = ? AND `project_id` > 0', $user->getId()));
-      return self::delete(array('`user_id` = ?', $user->getId()));
+      ProjectUserPermissions::instance()->delete(array('`user_id` = ? AND `project_id` > 0', $user->getId()));
+      return self::instance()->delete(array('`user_id` = ?', $user->getId()));
     } // clearByUser
     
   } // ProjectUsers 

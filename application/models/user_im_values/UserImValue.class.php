@@ -16,7 +16,7 @@
     * @return ImType
     */
     function getImType() {
-      return ImTypes::findById($this->getImTypeId());
+      return ImTypes::instance()->findById($this->getImTypeId());
     } // getImType
     
     /**
@@ -27,7 +27,7 @@
     * @return User
     */
     function getUser() {
-      return Users::findById($this->getUserId());
+      return Users::instance()->findById($this->getUserId());
     } // getUser
     
   } // UserImValue 

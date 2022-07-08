@@ -150,7 +150,7 @@
       
       $redirect_to = active_project() instanceof Project ? active_project()->getOverviewUrl() : get_url('dashboard');
       
-      $comment = Comments::findById(get_id());
+      $comment = Comments::instance()->findById(get_id());
       if (!($comment instanceof Comment)) {
         flash_error(lang('comment dnx'));
         $this->redirectToUrl($redirect_to);
@@ -226,7 +226,7 @@
     function delete() {
       $redirect_to = active_project() instanceof Project ? active_project()->getOverviewUrl() : get_url('dashboard');
       
-      $comment = Comments::findById(get_id());
+      $comment = Comments::instance()->findById(get_id());
       if (!($comment instanceof Comment)) {
         flash_error(lang('comment dnx'));
         $this->redirectToUrl($redirect_to);

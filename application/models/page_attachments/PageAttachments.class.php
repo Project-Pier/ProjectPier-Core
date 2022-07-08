@@ -14,7 +14,7 @@
     * @return array
     */
     function getAllByProject(Project $project) {
-      return self::findAll(array('conditions' => array('`project_id` = ?', $this->getId())));
+      return self::instance()->findAll(array('conditions' => array('`project_id` = ?', $this->getId())));
     } // getAllByProject
     
     /**
@@ -26,7 +26,7 @@
     * @return array
     */
     function getAttachmentsByManagerIdAndProject($rel_object_manager, $rel_object_id, $project_id) {
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`rel_object_manager` = ? AND `rel_object_id` = ? AND `project_id` = ?', $rel_object_manager, $rel_object_id, $project_id)));
     } // getAttachmentsByManagerIdAndProject
     
@@ -37,12 +37,12 @@
     * @param Project $project
     * @return array
     */
-    function getAttachmentsByPageNameAndProject($page_name, Project $project) {
+    static function getAttachmentsByPageNameAndProject($page_name, Project $project) {
       if (trim($page_name) == '' || !($project instanceof Project)) {
         return null;
       } // if
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`page_name` = ? AND `project_id` = ?', $page_name, $project->getId()),
         'order' => '`order` ASC'));
     } // getAttachmentsByPageNameAndProject
@@ -63,7 +63,7 @@
         $types = array($types);
       } // if
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`rel_object_manager` IN (?) AND `project_id` = ?', $types, $project->getId()),
         'order' => '`order` ASC'));
     } // getAttachmentsByTypeAndProject

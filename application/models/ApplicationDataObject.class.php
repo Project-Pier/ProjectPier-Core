@@ -98,7 +98,7 @@
       if (is_null($this->created_by)) {
         if ($this->columnExists('created_by_id')) {
           if ($this->getCreatedById()>0) {
-            $this->created_by = Users::findById($this->getCreatedById());
+            $this->created_by = Users::instance()->findById($this->getCreatedById());
           }
         }
       } // 
@@ -143,7 +143,7 @@
       if (is_null($this->updated_by)) {
         if ($this->columnExists('updated_by_id')) {
           if ($this->getUpdatedById()>0) {
-            $this->updated_by = Users::findById($this->getUpdatedById());
+            $this->updated_by = Users::instance()->findById($this->getUpdatedById());
           }
         }
       } // 

@@ -28,7 +28,7 @@
     function card() {
       $this->setLayout('dashboard');
       
-      $company = Companies::findById(get_id());
+      $company = Companies::instance()->findById(get_id());
       if (!($company instanceof Company)) {
         flash_error(lang('company dnx'));
         $this->redirectToReferer(ROOT_URL);
@@ -63,7 +63,7 @@
         $this->redirectTo('dashboard');
       } // if
       
-      $company = Companies::findById(get_id());
+      $company = Companies::instance()->findById(get_id());
       if (!($company instanceof Company)) {
         flash_error(lang('company dnx'));
         $this->redirectTo('administration');
@@ -193,7 +193,7 @@
         $this->redirectTo('dashboard');
       } // if
       
-      $company = Companies::findById(get_id());
+      $company = Companies::instance()->findById(get_id());
       if (!($company instanceof Company)) {
         flash_error(lang('client dnx'));
         $this->redirectTo('administration', 'clients');
@@ -255,7 +255,7 @@
         $this->redirectTo('dashboard');
       } // if
     
-      $company = Companies::findById(get_id());
+      $company = Companies::instance()->findById(get_id());
       if (!($company instanceof Company)) {
         flash_error(lang('client dnx'));
         $this->redirectTo('administration', 'clients');
@@ -313,7 +313,7 @@
         $this->redirectTo('dashboard');
       } // if
       
-      $company = Companies::findById(get_id());
+      $company = Companies::instance()->findById(get_id());
       if (!($company instanceof Company)) {
         flash_error(lang('company dnx'));
         $this->redirectToReferer(get_url('administration'));
@@ -343,7 +343,7 @@
           } // if
           
           $new_value = array_var($_POST, 'project_' . $project->getId()) == 'checked';
-          $relation = ProjectCompanies::findById(array(
+          $relation = ProjectCompanies::instance()->findById(array(
             'project_id' => $project->getId(), 
             'company_id' => $company->getId()
           )); // findById
@@ -383,7 +383,7 @@
         $this->redirectTo('dashboard');
       } // if
       
-      $company = Companies::findById(get_id());
+      $company = Companies::instance()->findById(get_id());
       if (!($company instanceof Company)) {
         flash_error(lang('company dnx'));
         $this->redirectToReferer(get_url('administration', 'clients'));
@@ -451,7 +451,7 @@
         $this->redirectTo('dashboard');
       } // if
       
-      $company = Companies::findById(get_id());
+      $company = Companies::instance()->findById(get_id());
       if (!($company instanceof Company)) {
         flash_error(lang('company dnx'));
         $this->redirectToReferer(get_url('administration', 'clients'));
@@ -509,7 +509,7 @@
         $this->redirectToReferer(get_url('dashboard'));
       }
 
-      $company = Companies::findById(get_id());
+      $company = Companies::instance()->findById(get_id());
       if (!($company instanceof Company)) {
         flash_error(lang('company dnx'));
         $this->redirectToReferer(get_url('administration'));

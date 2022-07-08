@@ -131,7 +131,7 @@
       $private_filter = $include_private ? 1 : 0;
       $silent_filter = $include_silent ? 1 : 0;
       
-      $all_logs = self::findAll(array(
+      $all_logs = self::instance()->findAll(array(
          'conditions' => array('`is_private` <= ? AND `is_silent` <= ? AND `project_id` = (?)', $private_filter, $silent_filter, $project->getId()),
          'order' => '`created_on` DESC',
          'limit' => $limit,
@@ -213,7 +213,7 @@
         $conditions = array('`is_private` <= ? AND `is_silent` <= ?', $private_filter, $silent_filter);
       } // if
       
-      $all_logs = self::findAll(array(
+      $all_logs = self::instance()->findAll(array(
         'conditions' => $conditions,
         'order' => '`created_on` DESC',
         'limit' => $limit,

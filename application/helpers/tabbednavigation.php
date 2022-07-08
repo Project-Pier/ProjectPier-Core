@@ -262,7 +262,7 @@
     * @param void
     * @return TabbedNavigation
     */
-    function instance() {
+    static function instance() {
       static $instance;
       
       // Check instance

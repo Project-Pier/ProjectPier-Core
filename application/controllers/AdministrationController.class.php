@@ -130,7 +130,7 @@
     * @return null
     */
     function tools() {
-      tpl_assign('tools', AdministrationTools::getAll());
+      tpl_assign('tools', AdministrationTools::instance()->getAll());
     } // tools
     
     /**
@@ -244,7 +244,7 @@
             $errors[] = lang('massmailer message required');
           } // if
           
-          $users = Users::getAll();
+          $users = Users::instance()->getAll();
           $recipients = array();
           if (is_array($users)) {
             foreach ($users as $user) {
@@ -362,7 +362,7 @@
           trace(__FILE__,"update_plugins() - activating [$name]");
           try {
             // Check if plugin exists in database
-            $plugin = Plugins::findOne(array('conditions' => array('`name` = ?', $name)));
+            $plugin = Plugins::instance()->findOne(array('conditions' => array('`name` = ?', $name)));
             trace(__FILE__,"update_plugins() - findOne");
             if ($plugin == NULL) $plugin = new Plugin();
             trace(__FILE__,"update_plugins() - setName");
@@ -396,7 +396,7 @@
           try
           {
             trace(__FILE__,"update_plugins() - deactivating [$name]");
-            $plugin = Plugins::findById($id);
+            $plugin = Plugins::instance()->findById($id);
             DB::beginWork();
             $deactivate = $name.'_deactivate';
             if( function_exists($deactivate) ) {

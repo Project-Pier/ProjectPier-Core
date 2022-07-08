@@ -82,7 +82,7 @@
     function view() {
       $this->addHelper('textile');
       
-      $message = ProjectMessages::findById(get_id());
+      $message = ProjectMessages::instance()->findById(get_id());
       if (!($message instanceof ProjectMessage)) {
         flash_error(lang('message dnx'));
         $this->redirectTo('message');
@@ -220,7 +220,7 @@
       $this->addHelper('textile');
       $this->setTemplate('add_message');
       
-      $message = ProjectMessages::findById(get_id());
+      $message = ProjectMessages::instance()->findById(get_id());
       if (!($message instanceof ProjectMessage)) {
         flash_error(lang('message dnx'));
         $this->redirectTo('message');
@@ -297,7 +297,7 @@
     * @return null
     */
     function update_options() {
-      $message = ProjectMessages::findById(get_id());
+      $message = ProjectMessages::instance()->findById(get_id());
       if (!($message instanceof ProjectMessage)) {
         flash_error(lang('message dnx'));
         $this->redirectTo('message');
@@ -339,7 +339,7 @@
     function move() {
       $this->setTemplate('move_message');
       
-      $message = ProjectMessages::findById(get_id());
+      $message = ProjectMessages::instance()->findById(get_id());
       if (!($message instanceof ProjectMessage)) {
         flash_error(lang('message dnx'));
         $this->redirectTo('message', 'index');
@@ -361,7 +361,7 @@
 
       if (is_array($move_data)) {
         $target_project_id = $move_data['target_project_id'];
-        $target_project = Projects::findById($target_project_id);
+        $target_project = Projects::instance()->findById($target_project_id);
         if (!($target_project instanceof Project)) {
           flash_error(lang('project dnx'));
           $this->redirectToUrl($message->getMoveUrl());
@@ -398,7 +398,7 @@
     function delete() {
       $this->setTemplate('del_message');
 
-      $message = ProjectMessages::findById(get_id());
+      $message = ProjectMessages::instance()->findById(get_id());
       if (!($message instanceof ProjectMessage)) {
         flash_error(lang('message dnx'));
         $this->redirectTo('message');
@@ -461,7 +461,7 @@
     * @return null
     */
     function subscribe() {
-      $message = ProjectMessages::findById(get_id());
+      $message = ProjectMessages::instance()->findById(get_id());
       if (!($message instanceof ProjectMessage)) {
         flash_error(lang('message dnx'));
         $this->redirectTo('message');
@@ -487,7 +487,7 @@
     * @return null
     */
     function unsubscribe() {
-      $message = ProjectMessages::findById(get_id());
+      $message = ProjectMessages::instance()->findById(get_id());
       if (!($message instanceof ProjectMessage)) {
         flash_error(lang('message dnx'));
         $this->redirectTo('message');
@@ -518,7 +518,7 @@
     * @return null
     */
     function add_comment() {
-      $message = ProjectMessages::findById(get_id());
+      $message = ProjectMessages::instance()->findById(get_id());
       if (!($message instanceof ProjectMessage)) {
         flash_error(lang('message dnx'));
         $this->redirectTo('message');
@@ -578,7 +578,7 @@
     function edit_comment() {
       $this->setTemplate('add_comment');
       
-      $comment = MessageComments::findById(get_id());
+      $comment = MessageComments::instance()->findById(get_id());
       if (!($comment instanceof MessageComment)) {
         flash_error(lang('comment dnx'));
         $this->redirectTo('message');
@@ -640,7 +640,7 @@
     * @return null
     */
     function delete_comment() {
-      $comment = MessageComments::findById(get_id());
+      $comment = MessageComments::instance()->findById(get_id());
       if (!($comment instanceof MessageComment)) {
         flash_error(lang('comment dnx'));
         $this->redirectTo('message');

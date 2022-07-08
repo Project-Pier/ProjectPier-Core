@@ -22,7 +22,7 @@
         $conditions = array('`project_id` = ? AND `is_private` = ?', $project->getId(), false);
       } // if
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => $conditions,
         'order' => '`created_on` DESC',
       )); // findAll
@@ -42,7 +42,7 @@
         $conditions = array('`project_id` = ? AND `is_important` = ? AND `is_private` = ?', $project->getId(), true, false);
       } // if
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => $conditions,
         'order' => '`created_on` DESC',
       )); // findAll

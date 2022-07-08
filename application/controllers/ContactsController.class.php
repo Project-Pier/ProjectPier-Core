@@ -42,16 +42,16 @@
       $this->setTemplate('add_contact');
       
       $company_id = get_id('company_id', null, 0);
-      $company = Companies::findById($company_id);
+      $company = Companies::instance()->findById($company_id);
       
-      if (!Contact::canAdd(logged_user(), $company)) {
+      if (!Contact::instance()->canAdd(logged_user(), $company)) {
         flash_error(lang('no access permissions'));
         $this->redirectToReferer(get_url('dashboard', 'index'));
       } // if
       
       $contact = new Contact();
       
-      $im_types = ImTypes::findAll(array('order' => '`id`'));
+      $im_types = ImTypes::instance()->findAll(array('order' => '`id`'));
 
       $contact_data = array_var($_POST, 'contact');
       if (!is_array($contact_data)) {
@@ -162,7 +162,7 @@
     function edit() {
       $this->setTemplate('add_contact');
       
-      $contact = Contacts::findById(get_id());
+      $contact = Contacts::instance()->findById(get_id());
       if (!($contact instanceof Contact)) {
         flash_error(lang('contact dnx'));
         $this->redirectTo('dashboard', 'contacts');
@@ -173,7 +173,7 @@
         $this->redirectTo('dashboard', 'contacts');
       } // if
       
-      $im_types = ImTypes::findAll(array('order' => '`id`'));
+      $im_types = ImTypes::instance()->findAll(array('order' => '`id`'));
       
       $contact_data = array_var($_POST, 'contact');
       $company = $contact->getCompany();
@@ -312,7 +312,7 @@
     function delete() {
       $this->setTemplate('del_contact');
 
-      $contact = Contacts::findById(get_id());
+      $contact = Contacts::instance()->findById(get_id());
       if (!($contact instanceof Contact)) {
         flash_error(lang('contact dnx'));
         $this->redirectTo('administration', 'contacts');
@@ -375,7 +375,7 @@
     function card() {
       $this->setLayout('dashboard');
       
-      $contact = Contacts::findById(get_id());
+      $contact = Contacts::instance()->findById(get_id());
       if (!($contact instanceof Contact)) {
         flash_error(lang('contact dnx'));
         $this->redirectToReferer(get_url('dashboard', 'contacts'));
@@ -399,7 +399,7 @@
     function add_user_account() {
       $this->setTemplate('add_user_to_contact');
       
-      $contact = Contacts::findById(get_id());
+      $contact = Contacts::instance()->findById(get_id());
       if (!($contact instanceof Contact)) {
         flash_error(lang('contact dnx'));
         $this->redirectTo('dashboard', 'contacts');
@@ -526,7 +526,7 @@
     function edit_user_account() {
       $this->setTemplate('add_user_to_contact');
       
-      $contact = Contacts::findById(get_id());
+      $contact = Contacts::instance()->findById(get_id());
       if (!($contact instanceof Contact)) {
         flash_error(lang('contact dnx'));
         $this->redirectTo('dashboard', 'contacts');
@@ -635,7 +635,7 @@
     function delete_user_account() {
       $this->setTemplate('del_user_account');
 
-      $contact = Contacts::findById(get_id());
+      $contact = Contacts::instance()->findById(get_id());
       if (!($contact instanceof Contact)) {
         flash_error(lang('contact dnx'));
         $this->redirectTo('administration', 'contacts');
@@ -712,7 +712,7 @@
         $this->redirectToReferer(get_url('dashboard', 'index'));
       }
 
-      $contact = Contacts::findById(get_id());
+      $contact = Contacts::instance()->findById(get_id());
       if (!($contact instanceof Contact)) {
         flash_error(lang('contact dnx'));
         $this->redirectToReferer(get_url('administration', 'contacts'));

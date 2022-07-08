@@ -232,7 +232,7 @@
     *
     * @return PageAttachments 
     */
-    function instance() {
+    static function instance() {
       static $instance;
       if (!instance_of($instance, 'PageAttachments')) {
         $instance = new PageAttachments();

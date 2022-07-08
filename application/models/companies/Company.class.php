@@ -40,7 +40,7 @@
     * @return array
     */
     function getContacts() {
-      return Contacts::findAll(array(
+      return Contacts::instance()->findAll(array(
         'conditions' => '`company_id` = ' . DB::escape($this->getId()),
         'order' => '`display_name` ASC'
       )); // findAll
@@ -54,7 +54,7 @@
     * @return integer
     */
     function countContacts() {
-      return Contacts::count('`company_id` = ' . DB::escape($this->getId()));
+      return Contacts::instance()->count('`company_id` = ' . DB::escape($this->getId()));
     } // countContacts
     
     /**
@@ -91,7 +91,7 @@
     function countUsers() {
       $users_table = Users::instance()->getTableName(true);
       $contacts_table = Contacts::instance()->getTableName(true);
-      $escaped_pk = is_array($pk_columns = Companies::getPkColumns()) ? '*' : DB::escapeField($pk_columns);
+      $escaped_pk = is_array($pk_columns = Companies::instance()->getPkColumns()) ? '*' : DB::escapeField($pk_columns);
       
       $users = array();
       $sql = "SELECT COUNT($users_table.$escaped_pk) AS 'row_count' FROM $users_table, $contacts_table WHERE ($users_table.`id` = $contacts_table.`user_id` AND $contacts_table.`company_id` = ". DB::escape($this->getId()) . " )";
@@ -108,7 +108,7 @@
     * @return array
     */
     function getUsersOnProject(Project $project) {
-      return ProjectUsers::getCompanyUsersByProject($this, $project);
+      return ProjectUsers::instance()->getCompanyUsersByProject($this, $project);
     } // getUsersOnProject
     
     /**
@@ -154,7 +154,7 @@
     * @return integer
     */
     function countClientCompanies() {
-      return Companies::count('`client_of_id` = ' . DB::escape($this->getId()));
+      return Companies::instance()->count('`client_of_id` = ' . DB::escape($this->getId()));
     } // countClientCompanies
     
     /**
@@ -177,9 +177,9 @@
     */
     function countProjects() {
       if ($this->isOwner()) {
-        return Projects::count(); // all
+        return Projects::instance()->count(); // all
       } else {
-        return ProjectCompanies::count('`company_id` = ' . DB::escape($this->getId()));
+        return ProjectCompanies::instance()->count('`company_id` = ' . DB::escape($this->getId()));
       } // if
     } // countProjects
     
@@ -192,7 +192,7 @@
     function getActiveProjects() {
       if (is_null($this->active_projects)) {
         if ($this->isOwner()) {
-          $this->active_projects = Projects::findAll(array(
+          $this->active_projects = Projects::instance()->findAll(array(
             'conditions' => '`completed_on` = ' . DB::escape(EMPTY_DATETIME)
           )); // findAll
         } else {
@@ -211,7 +211,7 @@
     function getCompletedProjects() {
       if (is_null($this->completed_projects)) {
         if ($this->isOwner()) {
-          $this->completed_projects = Projects::findAll(array(
+          $this->completed_projects = Projects::instance()->findAll(array(
             'conditions' => '`completed_on` > ' . DB::escape(EMPTY_DATETIME)
           )); // findAll
         } else {
@@ -275,7 +275,7 @@
       if ($this->isOwner() && ($project->getCompanyId() == $this->getId())) {
         return true;
       } // uf
-      return ProjectCompanies::findById(array('project_id' => $project->getId(), 'company_id' => $this->getId())) instanceof ProjectCompany;
+      return ProjectCompanies::instance()->findById(array('project_id' => $project->getId(), 'company_id' => $this->getId())) instanceof ProjectCompany;
     } // isProjectCompany
     
     /**

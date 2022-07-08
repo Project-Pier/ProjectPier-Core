@@ -153,7 +153,7 @@
     * @return Project
     */
     function getProject() {
-      return Projects::findById($this->getProjectId());
+      return Projects::instance()->findById($this->getProjectId());
     } // getProject
     
     /**
@@ -164,7 +164,7 @@
     * @return array
     */
     function getTaskLists() {
-      return ProjectTaskLists::findAll(array(
+      return ProjectTaskLists::instance()->findAll(array(
         'conditions' => '`milestone_id` = ' . DB::escape($this->getId()),
         'order' => 'created_on'
       )); // findAll
@@ -178,7 +178,7 @@
     * @return boolean
     */
     function hasTaskLists() {
-      return (boolean) ProjectTaskLists::count('`milestone_id` = ' . DB::escape($this->getId()));
+      return (boolean) ProjectTaskLists::instance()->count('`milestone_id` = ' . DB::escape($this->getId()));
     } // hasTaskLists
     
     /**
@@ -189,7 +189,7 @@
     * @return array
     */
     function getMessages() {
-      return ProjectMessages::findAll(array(
+      return ProjectMessages::instance()->findAll(array(
         'conditions' => '`milestone_id` = ' . DB::escape($this->getId()),
         'order' => 'created_on'
       )); // findAll
@@ -203,7 +203,7 @@
     * @return boolean
     */
     function hasMessages() {
-      return (boolean) ProjectMessages::count('`milestone_id` = ' . DB::escape($this->getId()));
+      return (boolean) ProjectMessages::instance()->count('`milestone_id` = ' . DB::escape($this->getId()));
     } // hasMessages
     
     /**
@@ -215,7 +215,7 @@
     */
     function getTickets() {
       if (!plugin_active('tickets')) return array();
-      return ProjectTickets::findAll(array(
+      return ProjectTickets::instance()->findAll(array(
         'conditions' => '`milestone_id` = ' . DB::escape($this->getId()),
         'order' => 'created_on'
       )); // findAll
@@ -230,7 +230,7 @@
     */
     function hasTickets() {
       if (!plugin_active('tickets')) return false;
-      return (boolean) ProjectTickets::count('`milestone_id` = ' . DB::escape($this->getId()));
+      return (boolean) ProjectTickets::instance()->count('`milestone_id` = ' . DB::escape($this->getId()));
     } // hasTickets
     
     /**
@@ -258,7 +258,7 @@
     * @return Company
     */
     protected function getAssignedToCompany() {
-      return Companies::findById($this->getAssignedToCompanyId());
+      return Companies::instance()->findById($this->getAssignedToCompanyId());
     } // getAssignedToCompany
     
     /**
@@ -269,7 +269,7 @@
     * @return User
     */
     protected function getAssignedToUser() {
-      return Users::findById($this->getAssignedToUserId());
+      return Users::instance()->findById($this->getAssignedToUserId());
     } // getAssignedToUser
     
     /**
@@ -280,7 +280,7 @@
     */
     function getCompletedBy() {
       if (is_null($this->completed_by)) {
-        $this->completed_by = Users::findById($this->getCompletedById());
+        $this->completed_by = Users::instance()->findById($this->getCompletedById());
       }
       return $this->completed_by;
     } // getCompletedBy
@@ -327,7 +327,7 @@
     * @param Project $project
     * @return boolean
     */
-    function canAdd(User $user, Project $project) {
+    static function canAdd(User $user, Project $project) {
       if ($user->getProjectPermission($project, PermissionManager::CAN_MANAGE_MILESTONES)) {
         return true;
       }
@@ -557,15 +557,15 @@
     function hasTicketsByState($state) {
       if (!plugin_active('tickets')) return 0;
       if ($state == 'open') {
-        $new = ProjectTickets::count('`milestone_id` = ' . DB::escape($this->getId()) . ' AND `state` = ' . DB::escape('new') . '');
-        $open = ProjectTickets::count('`milestone_id` = ' . DB::escape($this->getId()) . ' AND `state` = ' . DB::escape('open') . '');
+        $new = ProjectTickets::instance()->count('`milestone_id` = ' . DB::escape($this->getId()) . ' AND `state` = ' . DB::escape('new') . '');
+        $open = ProjectTickets::instance()->count('`milestone_id` = ' . DB::escape($this->getId()) . ' AND `state` = ' . DB::escape('open') . '');
         return $new + $open;
       }
       else if ($state == 'in_progress') {
-        return ProjectTickets::count('`milestone_id` = ' . DB::escape($this->getId()) . ' AND `state` = ' . DB::escape('pending') . '');
+        return ProjectTickets::instance()->count('`milestone_id` = ' . DB::escape($this->getId()) . ' AND `state` = ' . DB::escape('pending') . '');
       }
       else if ($state == 'resolved') {
-        return ProjectTickets::count('`milestone_id` = ' . DB::escape($this->getId()) . ' AND `state` = ' . DB::escape('closed') . '');
+        return ProjectTickets::instance()->count('`milestone_id` = ' . DB::escape($this->getId()) . ' AND `state` = ' . DB::escape('closed') . '');
       }
       
     } // hasTicketsByState
@@ -579,7 +579,7 @@
     */
     function getTotalTicketCount() {
       if (!plugin_active('tickets')) return 0;
-      return ProjectTickets::count('`milestone_id` = ' . DB::escape($this->getId()));
+      return ProjectTickets::instance()->count('`milestone_id` = ' . DB::escape($this->getId()));
     } // getTotalTicketCount
 
     /**

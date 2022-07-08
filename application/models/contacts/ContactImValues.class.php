@@ -37,7 +37,7 @@
     * @return array
     */
     function getByContact(Contact $contact) {
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => '`contact_id` = ' . DB::escape($contact->getId())
       )); // findAll
     } // getByContact

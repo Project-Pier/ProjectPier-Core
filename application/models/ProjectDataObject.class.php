@@ -138,7 +138,7 @@
       
       if (is_null($this->project)) {
         if ($this->columnExists('project_id')) {
-          $this->project = Projects::findById($this->getProjectId());
+          $this->project = Projects::instance()->findById($this->getProjectId());
         }
       } // if
       return $this->project;
@@ -619,7 +619,7 @@
       $manager_class = get_class($this->manager());
       $object_id = $this->getObjectId();
       
-      $attached_file = AttachedFiles::findById(array(
+      $attached_file = AttachedFiles::instance()->findById(array(
         'rel_object_manager' => $manager_class,
         'rel_object_id' => $object_id,
         'file_id' => $file->getId(),

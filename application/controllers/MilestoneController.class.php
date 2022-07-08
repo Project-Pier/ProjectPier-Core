@@ -75,7 +75,7 @@
     function view() {
       $this->addHelper('textile');
       
-      $milestone = ProjectMilestones::findById(get_id());
+      $milestone = ProjectMilestones::instance()->findById(get_id());
       if (!($milestone instanceof ProjectMilestone)) {
         flash_error(lang('milestone dnx'));
         $this->redirectTo('milestone', 'index');
@@ -177,7 +177,7 @@
       $this->addHelper('textile');
       $this->setTemplate('add_milestone');
       
-      $milestone = ProjectMilestones::findById(get_id());
+      $milestone = ProjectMilestones::instance()->findById(get_id());
       if (!($milestone instanceof ProjectMilestone)) {
         flash_error(lang('milestone dnx'));
         $this->redirectTo('milestone', 'index');
@@ -278,7 +278,7 @@
     function delete() {
       $this->setTemplate('del_milestone');
 
-      $milestone = ProjectMilestones::findById(get_id());
+      $milestone = ProjectMilestones::instance()->findById(get_id());
       if (!($milestone instanceof ProjectMilestone)) {
         flash_error(lang('milestone dnx'));
         $this->redirectTo('milestone', 'index');
@@ -337,7 +337,7 @@
     * @return null
     */
     function complete() {
-      $milestone = ProjectMilestones::findById(get_id());
+      $milestone = ProjectMilestones::instance()->findById(get_id());
       if (!($milestone instanceof ProjectMilestone)) {
         flash_error(lang('milestone dnx'));
         $this->redirectTo('milestone', 'index');
@@ -376,7 +376,7 @@
     * @return null
     */
     function open() {
-      $milestone = ProjectMilestones::findById(get_id());
+      $milestone = ProjectMilestones::instance()->findById(get_id());
       if (!($milestone instanceof ProjectMilestone)) {
         flash_error(lang('milestone dnx'));
         $this->redirectTo('milestone', 'index');

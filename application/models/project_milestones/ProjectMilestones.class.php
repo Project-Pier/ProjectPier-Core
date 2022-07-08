@@ -15,7 +15,7 @@
     * @param void
     * @return array
     */
-    function getLateMilestonesByCompany(Company $company) {
+    static function getLateMilestonesByCompany(Company $company) {
       $due_date = DateTimeValueLib::now()->beginningOfDay();
       
       $projects = $company->getActiveProjects();
@@ -28,7 +28,7 @@
         $project_ids[] = $project->getId();
       } // foreach
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`due_date` < ? AND `completed_on` = ? AND `project_id` IN (?)', $due_date, EMPTY_DATETIME, $project_ids),
         'order' => '`due_date`',
       )); // findAll
@@ -40,7 +40,7 @@
     * @param Company $company
     * @return array
     */
-    function getTodayMilestonesByCompany(Company $company) {
+    static function getTodayMilestonesByCompany(Company $company) {
       $from_date = DateTimeValueLib::now()->beginningOfDay();
       $to_date = DateTimeValueLib::now()->endOfDay();
       
@@ -54,7 +54,7 @@
         $project_ids[] = $project->getId();
       } // foreach
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`completed_on` = ? AND (`due_date` >= ? AND `due_date` < ?) AND `project_id` IN (?)', EMPTY_DATETIME, $from_date, $to_date, $project_ids),
         'order' => '`due_date`'
       )); // findAll
@@ -77,7 +77,7 @@
         $project_ids[] = $project->getId();
       } // foreach
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('(`assigned_to_user_id` = ? OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?)) AND `project_id` IN (?) AND `completed_on` = ?', $user->getId(), 0, 0, $project_ids, EMPTY_DATETIME),
         'order' => '`due_date`'
       )); // findAll
@@ -91,7 +91,7 @@
     * @return array
     */
     static function getActiveMilestonesByUserAndProject(User $user, Project $project) {
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('(`assigned_to_user_id` = ? OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?)) AND `project_id` = ? AND `completed_on` = ?', $user->getId(), 0, 0, $project->getId(), EMPTY_DATETIME),
         'order' => '`due_date`'
       )); // findAll
@@ -116,7 +116,7 @@
         $project_ids[] = $project->getId();
       } // foreach
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`due_date` < ? AND `completed_on` = ? AND `project_id` IN (?)', $due_date, EMPTY_DATETIME, $project_ids),
         'order' => '`due_date`'
       )); // findAll
@@ -143,7 +143,7 @@
         $project_ids[] = $project->getId();
       } // foreach
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`completed_on` = ? AND (`due_date` >= ? AND `due_date` < ?) AND `project_id` IN (?)', EMPTY_DATETIME, $from_date, $to_date, $project_ids)
       )); // findAll
     } // getTodayMilestonesByUser
@@ -157,7 +157,7 @@
     * @param DateTimeValue $to_date
     * @return array
     */
-    function getActiveMilestonesInPeriodByUser(User $user, DateTimeValue $from_date, DateTimeValue $to_date) {
+    static function getActiveMilestonesInPeriodByUser(User $user, DateTimeValue $from_date, DateTimeValue $to_date) {
       $projects = $user->getActiveProjects();
       if (!is_array($projects) || !count($projects)) {
         return null;
@@ -168,7 +168,7 @@
         $project_ids[] = $project->getId();
       } // foreach
       
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => array('`completed_on` = ? AND (`due_date` >= ? AND `due_date` < ?) AND `project_id` IN (?)', EMPTY_DATETIME, $from_date, $to_date, $project_ids),
         'order' => '`due_date` ASC'
       )); // findAll

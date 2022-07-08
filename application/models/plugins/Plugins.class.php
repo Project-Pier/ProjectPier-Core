@@ -72,7 +72,7 @@
     */
     static function getNamesFromDB() {
       $names = array();
-      $plugins = Plugins::findAll(array()); // findAll
+      $plugins = Plugins::instance()->findAll(array()); // findAll
       if (is_array($plugins)) {
         foreach ($plugins as $plugin) {
           $names[] = $plugin->getName();

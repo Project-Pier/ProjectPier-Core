@@ -38,7 +38,7 @@
     * @return array
     */
     function getByUser(User $user) {
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => '`user_id` = ' . DB::escape($user->getId())
       )); // findAll
     } // getByUser

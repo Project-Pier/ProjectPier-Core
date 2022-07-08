@@ -143,7 +143,7 @@
     * @return boolean
     */
     static function dropContentByObject(ProjectDataObject $object) {
-      return SearchableObjects::delete(array('`rel_object_manager` = ? AND `rel_object_id` = ?', get_class($object->manager()), $object->getObjectId()));
+      return SearchableObjects::instance()->delete(array('`rel_object_manager` = ? AND `rel_object_id` = ?', get_class($object->manager()), $object->getObjectId()));
     } // dropContentByObject
     
   } // SearchableObjects 

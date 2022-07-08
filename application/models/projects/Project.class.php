@@ -353,7 +353,7 @@
     * @return Project or NULL
     */
     function getParent() {
-      return Projects::findById($this->getParentId());
+      return Projects::instance()->findById($this->getParentId());
     } // getTaskList
 
     /**
@@ -364,7 +364,7 @@
     */
     function getAllSubprojects() {
       if (is_null($this->all_subprojects)) {
-        $this->all_subprojects = Projects::findAll(array(
+        $this->all_subprojects = Projects::instance()->findAll(array(
           'conditions' => array('`parent_id` = ?', $this->getId()),
           'order' => 'name'
         )); // findAll
@@ -384,7 +384,7 @@
         return $this->getAllSubprojects();
       }
       if (is_null($this->subprojects)) {
-        $this->subprojects = Projects::findAll(array(
+        $this->subprojects = Projects::instance()->findAll(array(
           // 'conditions' => array('`parent_id` = ? AND `is_private` = ?', $this->getId(), 0),
           'conditions' => array('`parent_id` = ?', $this->getId()),
           'order' => 'name'
@@ -488,7 +488,7 @@
     */
     function getAllMilestones() {
       if (is_null($this->all_milestones)) {
-        $this->all_milestones = ProjectMilestones::findAll(array(
+        $this->all_milestones = ProjectMilestones::instance()->findAll(array(
           'conditions' => array('`project_id` = ?', $this->getId()),
           'order' => 'due_date'
         )); // findAll
@@ -508,7 +508,7 @@
         return $this->getAllMilestones(); // member of owner company
       }
       if (is_null($this->milestones)) {
-        $this->milestones = ProjectMilestones::findAll(array(
+        $this->milestones = ProjectMilestones::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `is_private` = ?', $this->getId(), 0),
           'order' => 'due_date'
         )); // findAll
@@ -524,7 +524,7 @@
     */
     function getAllOpenMilestones() {
       if (is_null($this->all_open_milestones)) {
-        $this->all_open_milestones = ProjectMilestones::findAll(array(
+        $this->all_open_milestones = ProjectMilestones::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `completed_on` = ?', $this->getId(), EMPTY_DATETIME),
           'order' => 'due_date'
         )); // findAll
@@ -544,7 +544,7 @@
         return $this->getAllOpenMilestones();
       }
       if (is_null($this->open_milestones)) {
-        $this->open_milestones = ProjectMilestones::findAll(array(
+        $this->open_milestones = ProjectMilestones::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `completed_on` = ? AND `is_private` = ?', $this->getId(), EMPTY_DATETIME, 0),
           'order' => 'due_date'
         )); // findAll
@@ -560,7 +560,7 @@
     */
     function getAllCompletedMilestones() {
       if (is_null($this->all_completed_milestones)) {
-        $this->all_completed_milestones = ProjectMilestones::findAll(array(
+        $this->all_completed_milestones = ProjectMilestones::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `completed_on` > ?', $this->getId(), EMPTY_DATETIME),
           'order' => 'due_date'
         )); // findAll
@@ -580,7 +580,7 @@
         return $this->getAllCompletedMilestones();
       }
       if (is_null($this->completed_milestones)) {
-        $this->completed_milestones = ProjectMilestones::findAll(array(
+        $this->completed_milestones = ProjectMilestones::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `completed_on` > ? AND `is_private` = ?', $this->getId(), EMPTY_DATETIME, 0),
           'order' => 'due_date'
         )); // findAll
@@ -681,7 +681,7 @@
       } else {
         $conditions = array('`project_id` = ? AND (`due_date` >= ? AND `due_date` < ?) AND `is_private` = ?', $this->getId(), $from_date, $to_date, 0);
       }
-      return ProjectMilestones::findAll(array(
+      return ProjectMilestones::instance()->findAll(array(
         'conditions' => $conditions,
         'order' => 'due_date'
       )); // findAll
@@ -700,7 +700,7 @@
     function getAllTimes() {
       if (!plugin_active('times')) return null;
       if(is_null($this->all_times)) {
-        $this->all_times = ProjectTimes::findAll(array(
+        $this->all_times = ProjectTimes::instance()->findAll(array(
           'conditions' => array('`project_id` = ?', $this->getId()),
           'order' => 'done_date desc'
         )); // findAll
@@ -719,7 +719,7 @@
       if (!plugin_active('times')) return null;
       if(logged_user()->isMemberOfOwnerCompany()) return $this->getAllTimes(); // member of owner company
       if(is_null($this->times)) {
-        $this->times = ProjectTimes::findAll(array(
+        $this->times = ProjectTimes::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `is_private` = ?', $this->getId(), 0),
           'order' => 'done_date desc'
         )); // findAll
@@ -739,7 +739,7 @@
     */
     function getAllTaskLists() {
       if (is_null($this->all_task_lists)) {
-        $this->all_task_lists = ProjectTaskLists::findAll(array(
+        $this->all_task_lists = ProjectTaskLists::instance()->findAll(array(
           'conditions' => array('`project_id` = ?', $this->getId()),
           'order' => '`order`'
         )); // findAll
@@ -759,7 +759,7 @@
         return $this->getAllTaskLists();
       }
       if (is_null($this->task_lists)) {
-        $this->task_lists = ProjectTaskLists::findAll(array(
+        $this->task_lists = ProjectTaskLists::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `is_private` = ?', $this->getId(), 0),
           'order' => '`order`'
         )); // findAll
@@ -775,7 +775,7 @@
     */
     function getAllOpenTaskLists() {
       if (is_null($this->all_open_task_lists)) {
-        $this->all_open_task_lists = ProjectTaskLists::findAll(array(
+        $this->all_open_task_lists = ProjectTaskLists::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `completed_on` = ?', $this->getId(), EMPTY_DATETIME),
           'order' => '`order`'
         )); // findAll
@@ -795,7 +795,7 @@
         return $this->getAllOpenTaskLists();
       }
       if (is_null($this->open_task_lists)) {
-        $this->open_task_lists = ProjectTaskLists::findAll(array(
+        $this->open_task_lists = ProjectTaskLists::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `completed_on` = ? AND `is_private` = ?', $this->getId(), EMPTY_DATETIME, 0),
           'order' => '`order`'
         )); // findAll
@@ -811,7 +811,7 @@
     */
     function getAllCompletedTaskLists() {
       if (is_null($this->all_completed_task_lists)) {
-        $this->all_completed_task_lists = ProjectTaskLists::findAll(array(
+        $this->all_completed_task_lists = ProjectTaskLists::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `completed_on` > ?', $this->getId(), EMPTY_DATETIME),
           'order' => '`order`'
         )); // findAll
@@ -831,7 +831,7 @@
         return $this->getAllCompletedTaskLists();
       }
       if (is_null($this->completed_task_lists)) {
-        $this->completed_task_lists = ProjectTaskLists::findAll(array(
+        $this->completed_task_lists = ProjectTaskLists::instance()->findAll(array(
           'conditions' => array('`project_id` = ? AND `completed_on` > ? AND `is_private` = ?', $this->getId(), EMPTY_DATETIME, 0),
           'order' => '`order`'
         )); // findAll
@@ -857,7 +857,7 @@
       } else {
         $conditions = array('`project_id` = ? AND (`due_date` >= ? AND `due_date` < ?) AND `is_private` = ?', $this->getId(), $from_date, $to_date, 0);
       }
-      return ProjectTaskLists::findAll(array(
+      return ProjectTaskLists::instance()->findAll(array(
         'conditions' => $conditions,
         'order' => 'due_date'
       )); // findAll
@@ -1075,7 +1075,7 @@
     * @return null
     */
     function countProjectLogs() {
-      return ApplicationLogs::count(array('`project_id` = ?', $this->getId()));
+      return ApplicationLogs::instance()->count(array('`project_id` = ?', $this->getId()));
     } // countProjectLogs
     
     // ---------------------------------------------------
@@ -1091,7 +1091,7 @@
     function getAllForms() {
       if(!plugin_active('form')) { return null; }
       if (is_null($this->all_forms)) {
-        $this->all_forms = ProjectForms::findAll(array(
+        $this->all_forms = ProjectForms::instance()->findAll(array(
           'conditions' => array('`project_id` = ?', $this->getId()),
           'order' => '`order`'
         )); // findAll
@@ -1112,7 +1112,7 @@
         $conditions .= ' AND `is_enabled` = ' . DB::escape(true);
       } // if
       
-      return ProjectForms::findAll(array(
+      return ProjectForms::instance()->findAll(array(
         'conditions' => $conditions,
         'order' => '`order`'
       )); // findAll
@@ -1248,7 +1248,7 @@
     * @return User
     */
     function getCreatedBy() {
-      return Users::findById($this->getCreatedById());
+      return Users::instance()->findById($this->getCreatedById());
     } // getCreatedBy
     
     /**
@@ -1259,7 +1259,7 @@
     * @return User
     */
     function getCompletedBy() {
-      return Users::findById($this->getCompletedById());
+      return Users::instance()->findById($this->getCompletedById());
     } // getCompletedBy
     
     /**
@@ -1289,7 +1289,7 @@
       if (!$user->isMemberOfOwnerCompany()) {
         $conditions .= DB::prepareString(' AND `is_private` = ?', array(0));
       } // if
-      return ProjectMilestones::findAll(array(
+      return ProjectMilestones::instance()->findAll(array(
         'conditions' => $conditions,
         'order' => '`due_date`'
       ));
@@ -1315,7 +1315,7 @@
         $task_list_ids[] = $task_list->getId();
       } // if
       
-      return ProjectTasks::findAll(array(
+      return ProjectTasks::instance()->findAll(array(
         'conditions' => array('`task_list_id` IN (?) AND ((`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?)) AND `completed_on` = ?', $task_list_ids, $user->getId(), $user->getCompanyId(), 0, $user->getCompanyId(), 0, 0, EMPTY_DATETIME),
         //'conditions' => array('((`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?)) AND `completed_on` = ?', $task_list_ids, $user->getId(), $user->getCompanyId(), 0, $user->getCompanyId(), 0, 0, EMPTY_DATETIME),
         'order' => '`task_list_id`, `due_date`'
@@ -1348,7 +1348,7 @@
       if (!isset($options['order'])) {
         $options['order'] = '`created_on`';
       }
-      return ProjectTickets::findAll($options); // findAll
+      return ProjectTickets::instance()->findAll($options); // findAll
     } // getUsersTickets
     
     // ---------------------------------------------------
@@ -1462,7 +1462,7 @@
     * @param void
     * @return null
     */
-    function canAdd(User $user) {
+    static function canAdd(User $user) {
       return $user->isAccountOwner() || $user->isAdministrator(owner_company()) || $user->canManageProjects();
     } // canAdd
     

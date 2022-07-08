@@ -121,7 +121,7 @@
     * @return boolean
     */
     function isSubscriber(User $user) {
-      $subscription = MessageSubscriptions::findById(array(
+      $subscription = MessageSubscriptions::instance()->findById(array(
         'message_id' => $this->getId(),
         'user_id' => $user->getId()
       )); // findById
@@ -156,7 +156,7 @@
     * @return boolean
     */
     function unsubscribeUser(User $user) {
-      $subscription = MessageSubscriptions::findById(array(
+      $subscription = MessageSubscriptions::instance()->findById(array(
         'message_id' => $this->getId(),
         'user_id' => $user->getId()
       )); // findById
@@ -191,7 +191,7 @@
       trace(__FILE__,'getRelatedForms()');
       if (!plugin_active('form')) { return null; }
       if (is_null($this->related_forms)) {
-        $this->related_forms = ProjectForms::findAll(array(
+        $this->related_forms = ProjectForms::instance()->findAll(array(
           'conditions' => '`action` = ' . DB::escape(ProjectForm::ADD_COMMENT_ACTION) . ' AND `in_object_id` = ' . DB::escape($this->getId()),
           'order' => '`order`'
         )); // findAll
@@ -241,7 +241,7 @@
     * @param Project $project
     * @return booelean
     */
-    function canAdd(User $user, Project $project) {
+    static function canAdd(User $user, Project $project) {
       if (!$user->isProjectUser($project)) {
         return false; // user is on project
       } // if

@@ -15,7 +15,7 @@
     * @return array
     */
     static function getAll() {
-      return Companies::findAll(array(
+      return Companies::instance()->findAll(array(
         'order' => '`client_of_id`'
       )); // findAll
     } // getAll
@@ -28,7 +28,7 @@
     * @return Company
     */
     static function getOwnerCompany() {
-      return Companies::findOne(array(
+      return Companies::instance()->findOne(array(
         'conditions' => array('`client_of_id` = ?', 0)
       )); // findOne
     } // getOwnerCompany
@@ -40,7 +40,7 @@
     * @return array
     */
     static function getCompanyClients(Company $company) {
-      return Companies::findAll(array(
+      return Companies::instance()->findAll(array(
         'conditions' => array('`client_of_id` = ?', $company->getId()),
         'order' => '`name`'
       )); // array
@@ -53,7 +53,7 @@
     * @return array
     */
     static function getFavorites() {
-      return Companies::findAll(array(
+      return Companies::instance()->findAll(array(
         'conditions' => array('`is_favorite` = ?', 1),
         'order' => '`id`'));
     } // getFavorites

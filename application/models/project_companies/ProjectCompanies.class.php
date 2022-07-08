@@ -95,7 +95,7 @@
     * @return boolean
     */
     static function clearByCompany(Company $company) {
-      return self::delete(array('`company_id` = ?', $company->getId()));
+      return self::instance()->delete(array('`company_id` = ?', $company->getId()));
     } // clearByCompany
     
   } // ProjectCompanies 

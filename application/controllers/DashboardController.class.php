@@ -217,7 +217,7 @@
         $conditions = "`display_name` LIKE '$initial%'";
       } // if
       
-      list($contacts, $pagination) = Contacts::paginate(
+      list($contacts, $pagination) = Contacts::instance()->paginate(
         array(
           'conditions' => $conditions,
           'order' => '`display_name` ASC'
@@ -237,7 +237,7 @@
       tpl_assign('contacts_pagination', $pagination);
       tpl_assign('favorite_companies', $favorite_companies);
       tpl_assign('initial', $initial);
-      tpl_assign('initials', Contacts::getInitials());
+      tpl_assign('initials', Contacts::instance()->getInitials());
       $this->setSidebar(get_template_path('contacts_sidebar', 'dashboard'));
     } // contacts
     

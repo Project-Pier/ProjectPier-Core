@@ -222,7 +222,7 @@
     */
     function getMilestone() {
       if(is_null($this->milestone)) {
-        $this->milestone = ProjectMilestones::findById($this->getMilestoneId());
+        $this->milestone = ProjectMilestones::instance()->findById($this->getMilestoneId());
       } // if
       
       return $this->milestone;
@@ -237,7 +237,7 @@
     */
     function getTasks() {
       if (is_null($this->all_tasks)) {
-        $this->all_tasks = ProjectTasks::findAll(array(
+        $this->all_tasks = ProjectTasks::instance()->findAll(array(
           'conditions' => '`task_list_id` = ' . DB::escape($this->getId()),
           'order' => '`order`, `created_on`'
         )); // findAll
@@ -255,7 +255,7 @@
     */
     function getOpenTasks() {
       if (is_null($this->open_tasks)) {
-        $this->open_tasks = ProjectTasks::findAll(array(
+        $this->open_tasks = ProjectTasks::instance()->findAll(array(
           'conditions' => '`task_list_id` = ' . DB::escape($this->getId()) . ' AND `completed_on` = ' . DB::escape(EMPTY_DATETIME),
           'order' => '`order`, `created_on`'
         )); // findAll
@@ -273,7 +273,7 @@
     */
     function getCompletedTasks() {
       if (is_null($this->completed_tasks)) {
-        $this->completed_tasks = ProjectTasks::findAll(array(
+        $this->completed_tasks = ProjectTasks::instance()->findAll(array(
           'conditions' => '`task_list_id` = ' . DB::escape($this->getId()) . ' AND `completed_on` > ' . DB::escape(EMPTY_DATETIME),
           'order' => '`completed_on` DESC'
         )); // findAll
@@ -294,7 +294,7 @@
         if (is_array($this->all_tasks)) {
           $this->count_all_tasks = count($this->all_tasks);
         } else {
-          $this->count_all_tasks = ProjectTasks::count('`task_list_id` = ' . DB::escape($this->getId()));
+          $this->count_all_tasks = ProjectTasks::instance()->count('`task_list_id` = ' . DB::escape($this->getId()));
         } // if
       } // if
       return $this->count_all_tasks;
@@ -312,7 +312,7 @@
         if (is_array($this->open_tasks)) {
           $this->count_open_tasks = count($this->open_tasks);
         } else {
-          $this->count_open_tasks = ProjectTasks::count('`task_list_id` = ' . DB::escape($this->getId()) . ' AND `completed_on` = ' . DB::escape(EMPTY_DATETIME));
+          $this->count_open_tasks = ProjectTasks::instance()->count('`task_list_id` = ' . DB::escape($this->getId()) . ' AND `completed_on` = ' . DB::escape(EMPTY_DATETIME));
         } // if
       } // if
       return $this->count_open_tasks;
@@ -330,7 +330,7 @@
         if (is_array($this->completed_tasks)) {
           $this->count_completed_tasks = count($this->completed_tasks);
         } else {
-          $this->count_completed_tasks = ProjectTasks::count('`task_list_id` = ' . DB::escape($this->getId()) . ' AND `completed_on` > ' . DB::escape(EMPTY_DATETIME));
+          $this->count_completed_tasks = ProjectTasks::instance()->count('`task_list_id` = ' . DB::escape($this->getId()) . ' AND `completed_on` > ' . DB::escape(EMPTY_DATETIME));
         } // if
       } // if
       return $this->count_completed_tasks;
@@ -401,7 +401,7 @@
     * @return Project
     */
     function getProject() {
-      return Projects::findById($this->getProjectId());
+      return Projects::instance()->findById($this->getProjectId());
     } // getProject
     
     /**
@@ -413,7 +413,7 @@
     function getRelatedForms() {
       if(!plugin_active('forms')) { return null; }
       if (is_null($this->related_forms)) {
-        $this->related_forms = ProjectForms::findAll(array(
+        $this->related_forms = ProjectForms::instance()->findAll(array(
           'conditions' => '`action` = ' . DB::escape(ProjectForm::ADD_TASK_ACTION) . ' AND `in_object_id` = ' . DB::escape($this->getId()),
           'order' => '`order`'
         )); // findAll
@@ -430,7 +430,7 @@
     */
     function getCompletedBy() {
       if (!($this->completed_by instanceof User)) {
-        $this->completed_by = Users::findById($this->getCompletedById());
+        $this->completed_by = Users::instance()->findById($this->getCompletedById());
       } // if
       return $this->completed_by;
     } // getCompletedBy
@@ -497,7 +497,7 @@
     * @param Project $project
     * @return boolean
     */
-    function canAdd(User $user, Project $project) {
+    static function canAdd(User $user, Project $project) {
       if ($user->isAccountOwner()) {
         return true;
       } // if

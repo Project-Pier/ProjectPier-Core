@@ -8,9 +8,9 @@ class ProjectUserPermissions extends BaseProjectUserPermissions {
 
   private $permissions_cache = array();
 
-  function getPermissionsForProjectUser(ProjectUser $project_user) {
+  static function getPermissionsForProjectUser(ProjectUser $project_user) {
     $permissions = array();
-    $pups = ProjectUserPermissions::findAll( 
+    $pups = ProjectUserPermissions::instance()->findAll(
       array(
        'conditions' => '`project_id` = '.$project_user->getProjectId().' and `user_id` = '.$project_user->getUserId()
       )

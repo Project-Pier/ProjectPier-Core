@@ -224,7 +224,7 @@
     *
     * @return ProjectCompanies 
     */
-    function instance() {
+    static function instance() {
       static $instance;
       if (!instance_of($instance, 'ProjectCompanies')) {
         $instance = new ProjectCompanies();

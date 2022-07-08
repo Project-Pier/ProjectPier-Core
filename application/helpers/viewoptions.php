@@ -186,7 +186,7 @@
     * @param void
     * @return ViewOptions
     */
-    function instance() {
+    static  function instance() {
       static $instance;
       
       // Check instance

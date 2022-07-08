@@ -15,7 +15,7 @@
     */
     static function getAllPermissions() {
       $map = array();
-      $permissions = Permissions::findAll(); // findAll
+      $permissions = Permissions::instance()->findAll(); // findAll
       if (is_array($permissions)) {
         foreach ($permissions as $permission) {
           $map[$permission->getId()] = array($permission->getSource(),$permission->getName());
@@ -26,7 +26,7 @@
 
     static function getPermission($permission_id) {
       //$permission = Permissions::findOne(array('conditions' => '`id` = '.$permission_id));
-      $permission = Permissions::findById($permission_id);
+      $permission = Permissions::instance()->findById($permission_id);
       return $permission;
     } // getPermission
 
@@ -35,13 +35,13 @@
      * @return string in format "source-permission_name_with_underscores"
      */
     static function getPermissionString($permission_id) {
-      $permission = Permissions::findById($permission_id);
+      $permission = Permissions::instance()->findById($permission_id);
       return $permission->getSource()."-".preg_replace('/ /','_',$permission->getName());
     } // getPermissionString
     
     static function getPermissionsBySource() {
       $sources = array();
-      $permissions = Permissions::findAll(); //findAll
+      $permissions = Permissions::instance()->findAll(); //findAll
       if (is_array($permissions)) {
         foreach ($permissions as $permission) {
           if (!isset($sources[$permission->getSource()])) {

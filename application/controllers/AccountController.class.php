@@ -39,7 +39,7 @@
     * @return null
     */
     function edit_profile() {
-      $user = Users::findById(get_id());
+      $user = Users::instance()->findById(get_id());
       if (!($user instanceof User)) {
         flash_error(lang('user dnx'));
         $this->redirectTo('dashboard');
@@ -62,7 +62,7 @@
       } // if
       tpl_assign('redirect_to', $redirect_to);
       
-      $im_types = ImTypes::findAll(array('order' => '`id`'));
+      $im_types = ImTypes::instance()->findAll(array('order' => '`id`'));
       
       $user_data = array_var($_POST, 'user');
       if (!is_array($user_data)) {
@@ -151,7 +151,7 @@
     * @return null
     */
     function edit_password() {
-      $user = Users::findById(get_id());
+      $user = Users::instance()->findById(get_id());
       if (!($user instanceof User)) {
         flash_error(lang('user dnx'));
         $this->redirectTo('dashboard');
@@ -214,7 +214,7 @@
     * @return null
     */
     function edit_permissions() {
-      $user = Users::findById(get_id());
+      $user = Users::instance()->findById(get_id());
       if (!($user instanceof User)) {
         flash_error(lang('user dnx'));
         $this->redirectToReferer(get_url('dashboard'));
@@ -286,7 +286,7 @@
     * @return null
     */
     function update_permissions() {
-      $user = Users::findById(get_id());
+      $user = Users::instance()->findById(get_id());
       if (!($user instanceof User)) {
         flash_error(lang('user dnx'));
         $this->redirectToReferer(get_url('dashboard'));
@@ -358,7 +358,7 @@
     * @return null
     */
     function edit_avatar() {
-      $user = Users::findById(get_id());
+      $user = Users::instance()->findById(get_id());
       if (!($user instanceof User)) {
         flash_error(lang('user dnx'));
         $this->redirectTo('dashboard');
@@ -437,7 +437,7 @@
     * @return null
     */
     function delete_avatar() {
-      $user = Users::findById(get_id());
+      $user = Users::instance()->findById(get_id());
       if (!($user instanceof User)) {
         flash_error(lang('user dnx'));
         $this->redirectTo('dashboard');
@@ -484,7 +484,7 @@
     */
     function radio() {
       $this->setLayout('minimal');
-      //$user = Contact::findById(get_id());
+      //$user = Contact::instance()->findById(get_id());
       //if (!($contact instanceof Contact)) {
       //  flash_error(lang('contact dnx'));
       //  $this->redirectTo('dashboard');

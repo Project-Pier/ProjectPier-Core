@@ -29,7 +29,7 @@
     */
     function getCompany() {
       if (is_null($this->company)) {
-        $this->company = Companies::findById($this->getCompanyId());
+        $this->company = Companies::instance()->findById($this->getCompanyId());
       } // if
       return $this->company;
     } // getCompany
@@ -42,7 +42,7 @@
     */
     function getProject() {
       if (is_null($this->project)) {
-        $this->project = Projects::findById($this->getProjectId());
+        $this->project = Projects::instance()->findById($this->getProjectId());
       } // if
       return $this->project;
     } // getProject
@@ -63,7 +63,7 @@
         $users = $company->getUsers();
         if (is_array($users)) {
           foreach ($users as $user) {
-            $relation = ProjectUsers::findById(array(
+            $relation = ProjectUsers::instance()->findById(array(
               'project_id' => $project->getId(),
               'user_id' => $user->getId(),
             )); //findById

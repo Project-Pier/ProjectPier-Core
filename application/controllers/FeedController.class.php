@@ -35,7 +35,7 @@
       $this->setLayout('xml');
       
       $logout_after = false;
-      $cw =& CompanyWebsite::instance();
+      $cw = CompanyWebsite::instance();
       if (!$cw->getLoggedUser()) {
         // not logged in, remember to logout later
         $logout_after = true;
@@ -86,7 +86,7 @@
         die();
       } // if
       
-      $project = Projects::findById(array_var($_GET, 'project'));
+      $project = Projects::instance()->findById(array_var($_GET, 'project'));
       if (!($project instanceof Project)) {
         header("HTTP/1.0 404 Not Found");
         session_write_close();
@@ -149,7 +149,7 @@
         die();
       } // if
       
-      $project = Projects::findById(array_var($_GET, 'project'));
+      $project = Projects::instance()->findById(array_var($_GET, 'project'));
       if (!($project instanceof Project)) {
         header('HTTP/1.0 404 Not Found');
         session_write_close();
@@ -290,7 +290,7 @@
     * @return User
     */
     private function loginUserByToken() {
-      $user = Users::findById(array_var($_GET, 'id'));
+      $user = Users::instance()->findById(array_var($_GET, 'id'));
       if (!($user instanceof User)) {
         header("HTTP/1.0 404 Not Found");
         session_write_close();

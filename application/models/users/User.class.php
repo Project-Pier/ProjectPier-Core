@@ -188,7 +188,7 @@
         return true;
       }
       if (!isset($this->is_project_user_cache[$project->getId()])) {
-        $project_user = ProjectUsers::findById(array(
+        $project_user = ProjectUsers::instance()->findById(array(
           'project_id' => $project->getId(), 
           'user_id' => $this->getId())
         ); // findById
@@ -211,7 +211,7 @@
       if (!$this->isProjectUser($project)) {
         return false;
       }
-      $project_user = ProjectUsers::findById(array(
+      $project_user = ProjectUsers::instance()->findById(array(
         'project_id' => $project->getId(), 
         'user_id' => $this->getId())
       ); // findById
@@ -236,7 +236,7 @@
       if (!$this->isProjectUser($project)) {
         return false;
       }
-      $project_user = ProjectUsers::findById(array(
+      $project_user = ProjectUsers::instance()->findById(array(
         'project_id' => $project->getId(), 
         'user_id' => $this->getId())
       ); // findById
@@ -261,7 +261,7 @@
       if (!$this->isProjectUser($project)) {
         return false;
       }
-      $project_user = ProjectUsers::findById(array(
+      $project_user = ProjectUsers::instance()->findById(array(
         'project_id' => $project->getId(), 
         'user_id' => $this->getId())
       ); // findById
@@ -328,7 +328,7 @@
       } // if
       
       trace(__FILE__,"getProjectPermission($permission, $default):findById project={$project->getId()}");
-      $project_user = ProjectUsers::findById(array(
+      $project_user = ProjectUsers::instance()->findById(array(
         'project_id' => $project->getId(),
         'user_id' => $this->getId()
       )); // findById
@@ -502,7 +502,7 @@
     */
     function getContact() {
       if (!isset($this->contact)) {
-        $contact = Contacts::findOne(array('conditions' => array('`user_id` = ? ', $this->getId())));
+        $contact = Contacts::instance()->findOne(array('conditions' => array('`user_id` = ? ', $this->getId())));
         if ($contact instanceof Contact) {
           $this->contact = $contact;
         } else {
@@ -576,7 +576,7 @@
       if (!isset($this->active_projects[$sort])) {
         $projects_table = Projects::instance()->getTableName(true);
         $empty_datetime = DB::escape(EMPTY_DATETIME);
-        $this->active_projects[$sort] = ProjectUsers::getProjectsByUser($this, "$projects_table.`completed_on` = $empty_datetime", $sort);
+        $this->active_projects[$sort] = ProjectUsers::instance()->getProjectsByUser($this, "$projects_table.`completed_on` = $empty_datetime", $sort);
       } // if
       return $this->active_projects[$sort];
     } // getActiveProjects
@@ -618,7 +618,7 @@
     */
     function getLateMilestones() {
       if (is_null($this->late_milestones)) {
-        $this->late_milestones = ProjectMilestones::getLateMilestonesByUser($this);
+        $this->late_milestones = ProjectMilestones::instance()->getLateMilestonesByUser($this);
       } // if
       return $this->late_milestones;
     } // getLateMilestones
@@ -632,7 +632,7 @@
     */
     function getTodayMilestones() {
       if (is_null($this->today_milestones)) {
-        $this->today_milestones = ProjectMilestones::getTodayMilestonesByUser($this);
+        $this->today_milestones = ProjectMilestones::instance()->getTodayMilestonesByUser($this);
       } // if
       return $this->today_milestones;
     } // getTodayMilestones

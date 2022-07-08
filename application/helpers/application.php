@@ -74,7 +74,7 @@
   * @return string
   */
   function select_user($name, $selected = null, $attributes = null) {
-    $users = Users::getAll();
+    $users = Users::instance()->getAll();
     $options = array(option_tag(lang('none'), 0));
     if (is_array($users)) {
       foreach ($users as $user) {
@@ -155,7 +155,7 @@
     $all_options = array(option_tag(lang('none'), 0));
     if (is_array($grouped_project_users)) {
       foreach ($grouped_project_users as $company_id => $users) {
-        $company = Companies::findById($company_id);
+        $company = Companies::instance()->findById($company_id);
         if (!($company instanceof Company)) {
           continue;
         } // if
@@ -283,7 +283,7 @@
     $options = array(option_tag(lang('anyone'), '0:0'));
     if (is_array($grouped_users) && count($grouped_users)) {
       foreach ($grouped_users as $company_id => $users) {
-        $company = Companies::findById($company_id);
+        $company = Companies::instance()->findById($company_id);
         if (!($company instanceof Company)) {
           continue;
         } // if

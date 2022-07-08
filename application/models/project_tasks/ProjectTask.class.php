@@ -37,7 +37,7 @@
     * @return ProjectTaskList
     */
     function getTaskList() {
-      return ProjectTaskLists::findById($this->getTaskListId());
+      return ProjectTaskLists::instance()->findById($this->getTaskListId());
     } // getTaskList
     
     /**
@@ -70,7 +70,7 @@
     * @return User
     */
     function getCompletedBy() {
-      return Users::findById($this->getCompletedById());
+      return Users::instance()->findById($this->getCompletedById());
     } // getCompletedBy
     
     /**
@@ -98,7 +98,7 @@
     * @return Company
     */
     function getAssignedToCompany() {
-      return Companies::findById($this->getAssignedToCompanyId());
+      return Companies::instance()->findById($this->getAssignedToCompanyId());
     } // getAssignedToCompany
     
     /**
@@ -109,7 +109,7 @@
     * @return User
     */
     function getAssignedToUser() {
-      return Users::findById($this->getAssignedToUserId());
+      return Users::instance()->findById($this->getAssignedToUserId());
     } // getAssignedToUser
     
     /**
@@ -182,7 +182,7 @@
     * @param Project $project
     * @return boolean
     */
-    function canAdd(User $user, Project $project) {
+    static function canAdd(User $user, Project $project) {
       return false;
     } // canAdd
     

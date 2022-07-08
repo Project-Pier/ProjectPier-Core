@@ -90,7 +90,7 @@
       trace(__FILE__, 'initActiveProject()');
       $project_id = array_var($_GET, 'active_project');
       if (!empty($project_id)) {
-        $project = Projects::findById($project_id);
+        $project = Projects::instance()->findById($project_id);
         if ($project instanceof Project) {
           $this->setProject($project);
         } else {
@@ -127,7 +127,7 @@
         return false; // we don't have a user
       } // if
       
-      $user = Users::findById($user_id);
+      $user = Users::instance()->findById($user_id);
       if (!($user instanceof User)) {
         trace(__FILE__, "initLoggedUser():end, user_id=$user_id, not found in database");
         return false; // failed to find user

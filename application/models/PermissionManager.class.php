@@ -151,7 +151,7 @@ class PermissionManager {
   *
   */  
   static function removeSource($source) {
-    $permissions = Permissions::findAll(array('conditions' => "`source` = '".$source."'"));
+    $permissions = Permissions::instance()->findAll(array('conditions' => "`source` = '".$source."'"));
     if (is_array($permissions)) {
       foreach ($permissions as $permission) {
         PermissionManager::removeUserPermissions($permission);
@@ -167,7 +167,7 @@ class PermissionManager {
   *
   */  
   static function removeUserPermissions($permission) {
-    $user_permissions = ProjectUserPermissions::findAll(array('conditions' => "`permission_id` = '".$permission->getId()."'"));
+    $user_permissions = ProjectUserPermissions::instance()->findAll(array('conditions' => "`permission_id` = '".$permission->getId()."'"));
     foreach ($user_permissions as $user_permission) {
       $user_permission->delete();
     }

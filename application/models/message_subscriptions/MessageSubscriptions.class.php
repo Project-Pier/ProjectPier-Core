@@ -16,7 +16,7 @@
     */
     static function getUsersByMessage(ProjectMessage $message) {
       $users = array();
-      $subscriptions = MessageSubscriptions::findAll(array(
+      $subscriptions = MessageSubscriptions::instance()->findAll(array(
         'conditions' => '`message_id` = ' . DB::escape($message->getId())
       )); // findAll
       if (is_array($subscriptions)) {
@@ -38,7 +38,7 @@
     */
     static function getMessagesByUser(User $user) {
       $messages = array();
-      $subscriptions = MessageSubscriptions::findAll(array(
+      $subscriptions = MessageSubscriptions::instance()->findAll(array(
         'conditions' => '`user_id` = ' . DB::escape($user->getId())
       )); // findAll
       if (is_array($subscriptions)) {

@@ -240,7 +240,7 @@
     *
     * @return Users 
     */
-    function instance() {
+    static function instance() {
       static $instance;
       if (!instance_of($instance, 'Users')) {
         $instance = new Users();

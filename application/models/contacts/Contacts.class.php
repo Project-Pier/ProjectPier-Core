@@ -14,7 +14,7 @@
     * @return array
     */
     function getAll() {
-      return self::findAll();
+      return self::instance()->findAll();
     } // getAll
     
     /**

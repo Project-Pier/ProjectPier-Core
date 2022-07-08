@@ -30,7 +30,7 @@
     */
     function getUser() {
       if (is_null($this->user)) {
-        $this->user = Users::findById($this->getUserId());
+        $this->user = Users::instance()->findById($this->getUserId());
       }
       return $this->user;
     } // getUser
@@ -43,7 +43,7 @@
     */
     function getMessage() {
       if (is_null($this->message)) {
-        $this->message = ProjectMessages::findById($this->getMessageId());
+        $this->message = ProjectMessages::instance()->findById($this->getMessageId());
       }
       return $this->message;
     } // getMessage

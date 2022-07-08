@@ -223,7 +223,7 @@
     *
     * @return ContactImValues 
     */
-    function instance() {
+   static function instance() {
       static $instance;
       if (!instance_of($instance, 'ContactImValues')) {
         $instance = new ContactImValues();

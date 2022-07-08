@@ -5,7 +5,7 @@
   administration_tabbed_navigation(ADMINISTRATION_TAB_PROJECTS);
   administration_crumbs(lang('projects'));
   
-  if (Project::canAdd(logged_user())) {
+  if (Project::instance()->canAdd(logged_user())) {
     add_page_action(lang('add project'), get_url('project', 'add'));
     add_page_action(lang('copy project'), get_url('project', 'copy'));
   } // if

@@ -32,7 +32,7 @@
     * @return null
     */
     function update_category() {
-      $category = ConfigCategories::findById(get_id());
+      $category = ConfigCategories::instance()->findById(get_id());
       if (!($category instanceof ConfigCategory)) {
         flash_error(lang('config category dnx'));
         $this->redirectToReferer(get_url('administration'));

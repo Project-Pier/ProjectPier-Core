@@ -20,7 +20,7 @@
         array('`category_name` = ?', $category->getName()) : 
         array('`category_name` = ? AND `is_system` = ?', $category->getName(), false);
         
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'conditions' => $conditions,
         'order' => '`option_order`'
       )); // findAll
@@ -38,7 +38,7 @@
         array('`category_name` = ?', $category->getName()) : 
         array('`category_name` = ? AND `is_system` = ?', $category->getName(), false);
    
-      return self::count($conditions);
+      return self::instance()->count($conditions);
     } // countOptionsByCategory
     
     /**

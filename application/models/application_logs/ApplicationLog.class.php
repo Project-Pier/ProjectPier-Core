@@ -16,7 +16,7 @@
     * @return User
     */
     function getTakenBy() {
-      return Users::findById($this->getTakenById());
+      return Users::instance()->findById($this->getTakenById());
     } // getTakenBy
     
     /**
@@ -106,7 +106,7 @@
     * @return Project
     */
     function getProject() {
-      return Projects::findById($this->getProjectId());
+      return Projects::instance()->findById($this->getProjectId());
     } // getProject
     
     /**

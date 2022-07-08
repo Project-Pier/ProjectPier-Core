@@ -14,7 +14,7 @@
     * @return array
     */
     function getAll() {
-      return self::findAll(array(
+      return self::instance()->findAll(array(
         'order' => '`username` ASC'
       ));
     } // getAll
@@ -27,7 +27,7 @@
     * @return User
     */
     static function getByUsername($username) {
-      return self::findOne(array(
+      return self::instance()->findOne(array(
         'conditions' => array('`username` = ?', $username)
       )); // array
     } // getByUsername
@@ -39,7 +39,7 @@
     * @return User
     */
     static function getByEmail($email) {
-      return self::findOne(array(
+      return self::instance()->findOne(array(
         'conditions' => array('`email` = ?', $email)
       )); // findOne
     } // getByEmail
@@ -58,7 +58,7 @@
       
       $datetime = DateTimeValueLib::now();
       $datetime->advance(-1 * $active_in * 60);
-      return Users::findAll(array(
+      return Users::instance()->findAll(array(
         'conditions' => array('`last_activity` > ?', $datetime)
       )); // findAll
     } // getWhoIsOnline
@@ -82,7 +82,7 @@
     * @return boolean
     */
     static function tokenExists($token) {
-      return self::count(array('`token` = ?', $token)) > 0;
+      return self::instance()->count(array('`token` = ?', $token)) > 0;
     } // tokenExists
     
     /**

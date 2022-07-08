@@ -211,7 +211,7 @@
                       // Owner company members have all permissions
                       $permission_value = $is_owner_company ? true : array_var($_POST, 'project_user_' . $user_id . '_' . $permission_name) == 'checked';
 
-                      //$user = Users::findById($project_user->getUserId());
+                      //$user = Users::instance()->findById($project_user->getUserId());
                       trace(__FILE__,"permissions(): processing permission $permission_name=$permission_value for user {$user->getId()} in company {$company->getId()}");
                       $user->setProjectPermission($project,$permission_name,$permission_value);
                     } // if
@@ -434,7 +434,7 @@
       
       // Submitted...
       if (is_array($project_data)) {
-        $source = Projects::findById($project_data['source']);
+        $source = Projects::instance()->findById($project_data['source']);
         if (!($source instanceof Project)) {
           flash_error(lang('project dnx'));
           $this->redirectTo('administration', 'projects');
@@ -715,7 +715,7 @@
             $project_user->setUserId($user->getId());
             if (is_array($permissions)) {
               foreach ($permissions as $permission) {
-                $user = Users::findById($project_user->getUserId());
+                $user = Users::instance()->findById($project_user->getUserId());
                 $user->setProjectPermission($project,$permission,true);
               }
             } // if
@@ -777,7 +777,7 @@
     * @return null
     */
     function edit() {
-      $project = Projects::findById(get_id());
+      $project = Projects::instance()->findById(get_id());
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectTo('dashboard', 'index');
@@ -831,7 +831,7 @@
           $page_attachments = array_var($project_data, 'page_attachments');
           if (is_array($page_attachments)) {
             foreach ($page_attachments as $id => $page_attachment_data) {
-              $page_attachment = PageAttachments::findById($id);
+              $page_attachment = PageAttachments::instance()->findById($id);
               if (array_var($page_attachment_data, 'delete') == "checked") {
                 $page_attachment->delete();
               } else {
@@ -863,7 +863,7 @@
     * @return null
     */
     function edit_logo() {
-      $project = Projects::findById(get_id());
+      $project = Projects::instance()->findById(get_id());
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectToReferer(get_url('dashboard'));
@@ -942,7 +942,7 @@
         $this->redirectTo('dashboard');
       } // if
       
-      $project = Projects::findById(get_id());
+      $project = Projects::instance()->findById(get_id());
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectToReferer(get_url('dashboard', 'projects'));
@@ -974,7 +974,7 @@
       $this->setTemplate('del_project');
       $this->setLayout('administration');
 
-      $project = Projects::findById(get_id());
+      $project = Projects::instance()->findById(get_id());
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectTo('administration', 'projects');
@@ -1035,7 +1035,7 @@
     */
     function complete() {
       
-      $project = Projects::findById(get_id());
+      $project = Projects::instance()->findById(get_id());
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectTo('administration', 'projects');
@@ -1073,7 +1073,7 @@
     * @return null
     */
     function open() {
-      $project = Projects::findById(get_id());
+      $project = Projects::instance()->findById(get_id());
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectTo('administration', 'projects');
@@ -1130,7 +1130,7 @@
       
       $contact = new Contact();
       
-      $im_types = ImTypes::findAll(array('order' => '`id`'));
+      $im_types = ImTypes::instance()->findAll(array('order' => '`id`'));
 
       $contact_data = array_var($_POST, 'contact');
       if (!is_array($contact_data)) {
@@ -1169,7 +1169,7 @@
 
       if (is_array(array_var($_POST, 'contact'))) {
         if (array_var($contact_data, 'what') == 'existing') {
-          if (!(Contacts::findById(array_var($existing_contact_data, 'rel_object_id')) instanceof Contact)) {
+          if (!(Contacts::instance()->findById(array_var($existing_contact_data, 'rel_object_id')) instanceof Contact)) {
             tpl_assign('error', new FormSubmissionErrors(array(lang('existing contact required'))));
           } else {
             $page_attachment = new PageAttachment();
@@ -1332,14 +1332,14 @@
       $rel_object_manager = array_var($_GET, 'rel_object_manager', 'Contacts');
       
       $rel_object_id = array_var($_GET, 'rel_object_id');
-      $contact = Contacts::findById($rel_object_id);
+      $contact = Contacts::instance()->findById($rel_object_id);
       if (!($contact instanceof Contact)) {
         flash_error(lang('contact dnx'));
         $this->redirectTo('project', 'people');
       } // if
 
       $project_id = array_var($_GET, 'project_id', active_project());
-      $project = Projects::findById(get_id('project_id'));
+      $project = Projects::instance()->findById(get_id('project_id'));
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectTo('project', 'people');
@@ -1371,7 +1371,7 @@
         $this->redirectToReferer(active_project()->getOverviewUrl());
       } // if
       
-      $user = Users::findById(get_id('user_id'));
+      $user = Users::instance()->findById(get_id('user_id'));
       if (!($user instanceof User)) {
         flash_error(lang('user dnx'));
         $this->redirectTo('project', 'permissions');
@@ -1382,13 +1382,13 @@
         $this->redirectTo('project', 'permissions');
       } // if
       
-      $project = Projects::findById(get_id('project_id'));
+      $project = Projects::instance()->findById(get_id('project_id'));
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectTo('project', 'permissions');
       } // if
       
-      $project_user = ProjectUsers::findById(array('project_id' => $project->getId(), 'user_id' => $user->getId()));
+      $project_user = ProjectUsers::instance()->findById(array('project_id' => $project->getId(), 'user_id' => $user->getId()));
       if (!($project_user instanceof ProjectUser)) {
         flash_error(lang('user not on project'));
         $this->redirectTo('project', 'permissions');
@@ -1416,19 +1416,19 @@
         $this->redirectToReferer(active_project()->getOverviewUrl());
       } // if
       
-      $project = Projects::findById(get_id('project_id'));
+      $project = Projects::instance()->findById(get_id('project_id'));
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectTo('project', 'people');
       } // if
       
-      $company = Companies::findById(get_id('company_id'));
+      $company = Companies::instance()->findById(get_id('company_id'));
       if (!($company instanceof Company)) {
         flash_error(lang('company dnx'));
         $this->redirectTo('project', 'people');
       } // if
       
-      $project_company = ProjectCompanies::findById(array('project_id' => $project->getId(), 'company_id' => $company->getId()));
+      $project_company = ProjectCompanies::instance()->findById(array('project_id' => $project->getId(), 'company_id' => $company->getId()));
       if (!($project_company instanceof ProjectCompany)) {
         flash_error(lang('company not on project'));
         $this->redirectTo('project', 'people');
@@ -1438,10 +1438,10 @@
         
         DB::beginWork();
         $project_company->delete();
-        $users = ProjectUsers::getCompanyUsersByProject($company, $project);
+        $users = ProjectUsers::instance()->getCompanyUsersByProject($company, $project);
         if (is_array($users)) {
           foreach ($users as $user) {
-            $project_user = ProjectUsers::findById(array('project_id' => $project->getId(), 'user_id' => $user->getId()));
+            $project_user = ProjectUsers::instance()->findById(array('project_id' => $project->getId(), 'user_id' => $user->getId()));
             if ($project_user instanceof ProjectUser) {
               $project_user->delete();
             }
@@ -1466,7 +1466,7 @@
     * @return null
     */
     function score_card() {
-      $project = Projects::findById(get_id());
+      $project = Projects::instance()->findById(get_id());
       if (!($project instanceof Project)) {
         flash_error(lang('project dnx'));
         $this->redirectToReferer(get_url('dashboard'));
