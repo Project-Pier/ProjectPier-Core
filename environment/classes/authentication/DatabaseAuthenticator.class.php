@@ -58,7 +58,7 @@
       //  throw new Error('account disabled');
       //} // if
 
-      mysql_close($this->link);
+      mysqli_close($this->link);
 
       return $user;
     } // authenticate
@@ -75,13 +75,13 @@
       $password = config_option('authdb password', '');
       $database = config_option('authdb database', '');
 
-      $this->link = mysql_connect($server, $username, $password, true);
+      $this->link = mysqli_connect($server, $username, $password);
       if (!$this->link) {
-        throw new Error(mysql_error());
+        throw new Error(mysqli_error());
       }
-      $selected = mysql_select_db($database, $this->link);
+      $selected = mysqli_select_db($this->link, $database);
       if (!$selected) {
-        throw new Error(mysql_error());
+        throw new Error(mysqli_error());
       }
     }
 
@@ -96,11 +96,11 @@
       $sql = config_option('authdb sql', '');
       $sql = str_replace('$username', $username, $sql);
       $sql = str_replace('$password', $password, $sql);
-      $result = mysql_query($sql, $this->link);
+      $result = mysqli_query($this->link, $sql);
       if ($result) {
-        $limit = mysql_num_rows($result);
+        $limit = mysqli_num_rows($result);
         if ($limit == 1) {
-          $row = mysql_fetch_assoc($result);
+          $row = mysqli_fetch_assoc($result);
           $pass = array_var($row, 'password', $password);
           $email = array_var($row, 'email', 'noemail@databaseauthenticator.com');
 

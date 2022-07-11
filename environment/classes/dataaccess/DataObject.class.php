@@ -117,7 +117,7 @@
     * @return boolean
     * @throws ModelValidationError
     */
-    function validate($errors) {
+    function validate(&$errors) {
       return true;
     } // validate
     

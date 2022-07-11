@@ -362,11 +362,12 @@
     * @throws DBQueryError
     */
     protected function prepareAndExecute($sql, $arguments = null) {
+
       if (is_array($arguments)) {
         $sql = DB::prepareString($sql, $arguments);
       } // if
-      
-      $query_result = $this->executeQuery($sql, $this->link);
+
+      $query_result = $this->executeQuery($sql);
       DB::addToSQLLog($sql);
       
       if ($query_result === false) {
@@ -384,7 +385,7 @@
     * @return boolean
     */
     function isConnected() {
-      return is_resource($this->link);
+      return ($this->link instanceof mysqli);
     } // isConnected
     
     /**
@@ -405,7 +406,7 @@
     * @return null
     */
     protected function setLink($link) {
-      if (is_resource($link)) {
+      if ($link instanceof mysqli) {
         $this->link = $link;
       } // if
     } // setLink

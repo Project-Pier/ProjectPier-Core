@@ -34,26 +34,24 @@
  
   try {
     trace(__FILE__, 'CompanyWebsite::init()');
-    CompanyWebsite::init();
-    
+    CompanyWebsite::instance()->init();
+
     if (config_option('upgrade_check_enabled', false)) {
       VersionChecker::check(false);
     } // if
-    if (config_option('file_storage_adapter', 'mysql') == FILE_STORAGE_FILE_SYSTEM) {
+    if (config_option('file_storage_adapter', 'mysqli') == FILE_STORAGE_FILE_SYSTEM) {
       trace(__FILE__, 'FileRepository::setBackend() - use file storage');
       FileRepository::setBackend(new FileRepository_Backend_FileSystem(FILES_DIR));
     } else {
       trace(__FILE__, 'FileRepository::setBackend() - use mysql storage');
       FileRepository::setBackend(new FileRepository_Backend_MySQL(DB::connection()->getLink(), TABLE_PREFIX));
     } // if
-    
     PublicFiles::setRepositoryPath(ROOT . '/public/files');
     if (trim(PUBLIC_FOLDER) == '') {
       PublicFiles::setRepositoryUrl(with_slash(ROOT_URL) . 'files');
     } else {
       PublicFiles::setRepositoryUrl(with_slash(ROOT_URL) . PUBLIC_FOLDER . '/files');
     } // if
-    
   // Owner company or administrator doen't exist? Let the user create them
   } catch(OwnerCompanyDnxError $e) {
     Env::executeAction('access', 'complete_installation');

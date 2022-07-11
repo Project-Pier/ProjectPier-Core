@@ -72,7 +72,7 @@
           $category_id = 0;
           $sql = "insert into `".TABLE_PREFIX."i18n_values` (`locale_id`, `category_id`, `name`, `description`) values( '$locale_id', '$category_id', '$name', '~{$name}');";
           try {
-            mysql_query($sql);
+            mysqli_query(DB::connection(), $sql);
           } catch(Exception $e) {}
         }
       } catch(Exception $e) {}

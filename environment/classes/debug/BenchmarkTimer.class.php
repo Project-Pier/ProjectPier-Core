@@ -272,7 +272,7 @@
   * @return null
   */
   function benchmark_timer_start() {
-    $timer =& BenchmarkTimer::instance();
+    $timer = BenchmarkTimer::instance();
     $timer->start();
   } // benchmark_timer_start
   
@@ -284,7 +284,7 @@
   * @return null
   */
   function benchmar_timer_stop() {
-    $timer =& BenchmarkTimer::instance();
+    $timer = BenchmarkTimer::instance();
     $timer->stop();
   } // benchmar_timer_stop
   
@@ -296,7 +296,7 @@
   * @return null
   */
   function benchmark_timer_set_marker($marker_name) {
-    $timer =& BenchmarkTimer::instance();
+    $timer = BenchmarkTimer::instance();
     $timer->setMarker($marker_name);
   } // benchmark_timer_set_marker
   
@@ -308,7 +308,7 @@
   * @return string
   */
   function benchmark_timer_total_execution_time() {
-    $timer =& BenchmarkTimer::instance();
+    $timer = BenchmarkTimer::instance();
     return $timer->TimeElapsed();
   } // benchmark_timer_total_execution_time
   
@@ -321,7 +321,7 @@
   * @return mixed
   */
   function benchmark_timer_display($full = true) {
-    $timer =& BenchmarkTimer::instance();
+    $timer = BenchmarkTimer::instance();
     $timer->display($full);
   } // benchmark_timer_display
   

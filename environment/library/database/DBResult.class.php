@@ -127,7 +127,7 @@
     * @return null
     */
     function setResource($resource) {
-      if (is_resource($resource)) {
+      if (is_object($resource)) {
         $this->resource = $resource;
       } // if
     } // setResource

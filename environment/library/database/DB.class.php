@@ -17,7 +17,7 @@
     *
     * @var array
     */
-    static private $connections = array();
+    static private array $connections = array();
     
     /**
     * ID of primary connection. This connection will be used if connection name is not suplied
@@ -43,6 +43,7 @@
     static function connection($connection_name = null) {
       if (is_null($connection_name)) {
         $connection_name = self::getPrimaryConnection();
+
       } // if
       return array_var(self::$connections, $connection_name);
     } // connection
@@ -83,15 +84,14 @@
     * @throws DBAdapterDnx
     * @throws DBConnectError
     */
-    private function connectAdapter($adapter_name, $params) {
-      
+    static function connectAdapter(string $adapter_name, array $params): AbstractDBAdapter
+    {
       self::useAdapter($adapter_name);
-      
       $adapter_class = self::getAdapterClass($adapter_name);
       if (!class_exists($adapter_class)) {
         throw new DBAdapterDnx($adapter_name, $adapter_class);
       } // if
-      
+
       return new $adapter_class($params);
       
     } // connectAdapter
@@ -103,7 +103,7 @@
     * @param string $adapter_class
     * @return void
     */
-    private function useAdapter($adapter_name) {
+    static function useAdapter($adapter_name) {
       $adapter_class = self::getAdapterClass($adapter_name);
       $path = dirname(__FILE__) . "/adapters/$adapter_class.class.php";
       if (!is_readable($path)) {
@@ -119,7 +119,7 @@
     * @param string $adapter_name
     * @return string
     */
-    private function getAdapterClass($adapter_name) {
+    static function getAdapterClass($adapter_name) {
       return Inflector::camelize($adapter_name) . 'DBAdapter';
     } // getAdapterClass
     
@@ -326,7 +326,7 @@
     * @param string $sql
     * @return void
     */
-    function addToSQLLog($sql) {
+    static function addToSQLLog($sql) {
       self::$sql_log[] = $sql;
     } // addToSQLLog
     
