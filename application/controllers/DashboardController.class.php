@@ -226,8 +226,7 @@
         $page
       ); // paginate
       
-      $favorite_companies = Companies::getFavorites();
-      
+      $favorite_companies = Companies::instance()->getFavorites();
       tpl_assign('view_type', $view_type);
       tpl_assign('tags', array());
       if (plugin_active('tags')) {

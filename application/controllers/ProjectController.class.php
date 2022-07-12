@@ -908,7 +908,7 @@
           
           if (!$project->setLogo($logo['tmp_name'], $max_width, $max_height, true)) {
             DB::rollback();
-            flash_error(lang('error edit project logo', $e));
+            flash_error(lang('error edit project logo'));
             $this->redirectToUrl($project->getEditLogoUrl());
           } // if
           

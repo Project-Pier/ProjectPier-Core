@@ -41,7 +41,7 @@
         $user = $_POST['from'];
         //$sql = "insert into " . DB_PREFIX . "`email_in` (created_by, raw) values (";
         $sql = "insert into `PP086_email_in` (created_by, raw) values (";
-        $sql .= "'$user', '" . mysql_real_escape_string( $_POST['message'] ) . "')";
+        $sql .= "'$user', '" . mysqli_real_escape_string(DB::connection(), $_POST['message'] ) . "')";
         DB::execute($sql);
         //ApplicationLogs::createLog('new email received', null, ApplicationLogs::ACTION_ADD);
         DB::commit();

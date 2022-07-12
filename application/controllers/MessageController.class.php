@@ -54,7 +54,7 @@
         array('`project_id` = ?' . $archive_condition , active_project()->getId()) :
         array('`project_id` = ? AND `is_private` = ?' . $archive_condition, active_project()->getId(), 0);
 
-      list($messages, $pagination) = ProjectMessages::paginate(
+      list($messages, $pagination) = ProjectMessages::instance()->paginate(
         array(
           'conditions' => $conditions,
           'order' => '`created_on` DESC'
@@ -81,7 +81,8 @@
     */
     function view() {
       $this->addHelper('textile');
-      
+      $this->setTemplate('view_message');
+
       $message = ProjectMessages::instance()->findById(get_id());
       if (!($message instanceof ProjectMessage)) {
         flash_error(lang('message dnx'));
