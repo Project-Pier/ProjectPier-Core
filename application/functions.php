@@ -10,30 +10,31 @@
   *
   * @param_string $load_class_name
   */
-  function __autoload($load_class_name) {
+spl_autoload_register(function ($load_class_name) {
     static $loader = null;
     $class_name = strtoupper($load_class_name);
-    
+
     // Try to get this data from index...
-    if (isset($GLOBALS[AutoLoader::GLOBAL_VAR]) && 
-      isset($GLOBALS[AutoLoader::GLOBAL_VAR][$class_name])) {
-      return include $GLOBALS[AutoLoader::GLOBAL_VAR][$class_name];
+    if (isset($GLOBALS[AutoLoader::GLOBAL_VAR]) &&
+        isset($GLOBALS[AutoLoader::GLOBAL_VAR][$class_name])) {
+        return include $GLOBALS[AutoLoader::GLOBAL_VAR][$class_name];
     } // if
-    
+
     if (!$loader) {
-      $loader = new AutoLoader();
-      $loader->addDir(ROOT . '/application');
-      $loader->addDir(ROOT . '/environment');
-      $loader->addDir(ROOT . '/library');
-      $loader->setIndexFilename(ROOT . '/cache/autoloader.php');
+        $loader = new AutoLoader();
+        $loader->addDir(ROOT . '/application');
+        $loader->addDir(ROOT . '/environment');
+        $loader->addDir(ROOT . '/library');
+        $loader->addDir(ROOT . '/plugins');
+        $loader->setIndexFilename(ROOT . '/cache/autoloader.php');
     } // if
-    
+
     try {
-      $loader->loadClass($class_name);
-    } catch(Exception $e) {
-      die('Exception in AutoLoader: ' . $e->__toString());
+        $loader->loadClass($class_name);
+    } catch (Exception $e) {
+        die('Exception in AutoLoader: ' . $e->__toString());
     } // try
-  } // __autoload
+}); // __autoload
   
   /**
   * ProjectPier shutdown function
@@ -102,7 +103,7 @@
   * @param boolean $include_project_id
   * @return string
   */
-  function get_url($controller_name = null, $action_name = null, $params = null, $anchor = null, $include_project_id = true, $separator = '&amp;') {
+  function get_url($controller_name = '', $action_name = '', $params = null, $anchor = null, $include_project_id = true, $separator = '&amp;') {
     //trace(__FILE__,"get_url($controller_name, $action_name, params?, $anchor, $include_project_id, $separator)");
     $controller = trim($controller_name) ? $controller_name : DEFAULT_CONTROLLER;
     $action = trim($action_name) ? $action_name : DEFAULT_ACTION;
@@ -135,7 +136,7 @@
         } // if
       } // foreach
     } // if
-    
+    if(is_null($anchor)) $anchor = '';
     if (trim($anchor) <> '') {
       $anchor = '#' . $anchor;
     } // if
@@ -339,7 +340,7 @@
       throw new Error("Class '$manager_class' does not exist");
     } // if
     
-    $code = "return $manager_class::findById($object_id);";
+    $code = "return $manager_class::instance()->findById($object_id);";
     try { 
       $object = eval($code);
     } catch (Exception $e) {
