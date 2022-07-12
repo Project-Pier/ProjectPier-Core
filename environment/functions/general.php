@@ -238,11 +238,11 @@
   * @param string $string Input string
   * @param string $niddle Needle string
   * @return boolean
-  */
+
   function str_starts_with($string, $niddle) {
   	return substr($string, 0, strlen($niddle)) == $niddle;  	
   } // end func str_starts with
-  
+*/
   /**
   * String ends with something
   *
@@ -252,11 +252,11 @@
   * @param string $string Input string
   * @param string $niddle Needle string
   * @return boolean
-  */
+
   function str_ends_with($string, $niddle) {
     return substr($string, strlen($string) - strlen($niddle), strlen($niddle)) == $niddle;
   } // end func str_ends_with
-  
+*/
   /**
   * Return path with trailing slash
   *
