@@ -186,7 +186,7 @@
       // Empty?
       if (!is_array($rows) || (count($rows) < 1)) {
         trace(__FILE__,'find():found 0');
-        return null;
+        return array();
       } // if
       
       // If we have one load it, else loop and load many
@@ -202,7 +202,7 @@
             $objects[] = $object;
           } // if
         } // foreach
-        return count($objects) ? $objects : null;
+        return count($objects) ? $objects : array();
       } // if
       trace(__FILE__,'find():end (impossible)');
     } // find
@@ -280,6 +280,9 @@
     function delete($conditions = null) {
       trace(__FILE__,"delete($conditions)");
       $conditions = $this->prepareConditions($conditions);
+      if(is_null($conditions)) {
+          $conditions = '';
+      }
       $where_string = trim($conditions) == '' ? '' : "WHERE $conditions";
       $sql = "DELETE FROM " . $this->getTableName(true) . " $where_string";
       trace(__FILE__,"delete($conditions) sql=".$sql);
