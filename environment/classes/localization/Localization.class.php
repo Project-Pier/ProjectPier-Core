@@ -302,8 +302,8 @@ function utf8_strrev($str, $reverse_numbers = true){
     * @param float $timezone Timezone offset in hours
     * @return string
     */
-    function formatDateTime(DateTimeValue $date, $timezone = 0) {
-      $lang_datetime_format = $this->langs->get('datetime format', null);
+    function formatDateTime(DateTimeValue $date, $datetime_format = "", $timezone = 0) {
+      if($datetime_format == "") {$lang_datetime_format = $this->langs->get('datetime format', null);}
       $datetime_format = ($lang_datetime_format) ? $lang_datetime_format : $this->datetime_format;
       return $this->date_lang($datetime_format, $date->getTimestamp() + ($timezone * 3600));
     } // formatDateTime

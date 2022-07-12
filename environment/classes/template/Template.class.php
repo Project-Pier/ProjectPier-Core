@@ -96,7 +96,7 @@
     */
     static function instance() {
       if(!isset(self::$_instance)) {
-        self::$_instance = new self;
+        self::$_instance = new Template();
       }
       return self::$_instance;
     } // instance

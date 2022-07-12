@@ -70,6 +70,7 @@
   * @return string
   */
   function clean($str) {
+    if(is_null($str)) $str = '';
     $str = preg_replace('/&(?!#[0-9]+;)/s', '&amp;', $str);
   	$str = str_replace(array('<', '>', '"'), array('&lt;', '&gt;', '&quot;'), $str);
   	return $str;
@@ -390,7 +391,7 @@
   */
   function php_config_value_to_bytes($val) {
     $val = trim($val);
-    $last = strtolower($val{strlen($val)-1});
+    $last = strtolower($val[strlen($val)-1]);
     switch ($last) {
       // The 'G' modifier is available since PHP 5.1.0
       case 'g':
@@ -417,11 +418,9 @@
   * @return null
   */
   function fix_input_quotes() {
-    if (get_magic_quotes_gpc()) {
       array_stripslashes($_GET);
       array_stripslashes($_POST);
       array_stripslashes($_COOKIE);
-    } // if
   } // fix_input_quotes
   
   /**

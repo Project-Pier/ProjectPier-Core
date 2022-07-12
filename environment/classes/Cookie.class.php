@@ -37,12 +37,11 @@
       } // if
       
       // if $expiration is null, set the cookie to expire when the session is over
-      $expiration_timestamp = is_null($expiration) ? null : $expiration_time->getTimestamp();
+      $expiration_timestamp = is_null($expiration) ? 0 : $expiration_time->getTimestamp();
 
       $path = defined('COOKIE_PATH') ? COOKIE_PATH : '/';
       $domain = defined('COOKIE_DOMAIN') ? COOKIE_DOMAIN : '';
       $secure = defined('COOKIE_SECURE') ? COOKIE_SECURE : false;
-      
       setcookie($name, $value, $expiration_timestamp, $path, $domain, $secure);
     } // setValue
     
