@@ -64,6 +64,7 @@
       tpl_assign('status_messages', explode("\n", trim(ob_get_clean())));
       
       $this->setContentFromTemplate('finish.php');
+      ob_end_clean();
       return false;
     } // execute
   

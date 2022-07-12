@@ -116,7 +116,7 @@
       // ---------------------------------------------------
       if ($this->haveInnoDbSupport()) {
         $this->printMessage('InnoDB storage engine is supported');
-        @mysql_query("SET STORAGE_ENGINE='INNODB'", $this->database_connection);
+        @mysqli_query($this->database_connection,"SET STORAGE_ENGINE='INNODB'");
       } else {
         $this->printMessage('InnoDB storage engine is not supported, this is okay for low volume installations');
       } // if
@@ -134,15 +134,16 @@
       
       tpl_assign('table_prefix', $database_prefix);
       
-      @mysql_query("rollback", $this->database_connection);
-      @mysql_query("unlock tables", $this->database_connection);
-      @mysql_query("SET NAMES ? COLLATE ?",  $database_charset, 'utf8_unicode_ci', $this->database_connection);
-      @mysql_query("SET SQL_MODE=''", $this->database_connection);
-      @mysql_query("SET STORAGE_ENGINE=INNODB", $this->database_connection);
+      @mysqli_query($this->database_connection,"rollback");
+      @mysqli_query($this->database_connection,"unlock tables");
+      $str = sprintf("SET NAMES %s COLLATE %s",$database_charset, 'utf8_unicode_ci');
+      @mysqli_query($this->database_connection, $str);
+      @mysqli_query($this->database_connection,"SET SQL_MODE=''");
+      @mysqli_query($this->database_connection, "SET STORAGE_ENGINE=INNODB");
       tpl_assign('default_collation', 'COLLATE utf8_unicode_ci');
       tpl_assign('default_charset', 'CHARACTER SET utf8');
       
-      @mysql_query('BEGIN WORK', $this->database_connection);
+      @mysqli_query($this->database_connection, 'BEGIN WORK');
       
       // Database construction
       $total_queries = 0;
@@ -245,8 +246,8 @@
     * @return boolean
     */
     function haveInnoDbSupport() {
-      if ($result = mysql_query("SHOW VARIABLES LIKE 'have_innodb'", $this->database_connection)) {
-        if ($row = mysql_fetch_assoc($result)) {
+      if ($result = mysqli_query($this->database_connection,"SHOW VARIABLES LIKE 'have_innodb'")) {
+        if ($row = mysqli_fetch_assoc($result)) {
           return strtolower(array_var($row, 'Value')) == 'yes';
         } // if
       } // if

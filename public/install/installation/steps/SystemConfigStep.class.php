@@ -37,7 +37,7 @@
     * @return boolean
     */
     function execute() {
-      if ((strtolower(array_var($_SERVER, 'HTTPS')) == 'on') || (array_var($_SERVER, 'SERVER_PORT') == 443)) {
+      if ((strtolower(array_var($_SERVER, 'HTTPS', false)) == 'on') || (array_var($_SERVER, 'SERVER_PORT', false) == 443)) {
         $protocol = 'https://';
       } else {
         $protocol = 'http://';

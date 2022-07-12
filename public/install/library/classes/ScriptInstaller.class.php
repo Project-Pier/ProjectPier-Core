@@ -175,7 +175,7 @@
     * @return ScriptInstallerStep
     */
     function getStep($num) {
-      $num = (integer) $num - 1;
+      $num = ((integer) $num) - 1;
       return isset($this->steps[$num]) ? $this->steps[$num] : null;
     } // getStep
     

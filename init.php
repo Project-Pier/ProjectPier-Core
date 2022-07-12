@@ -1,7 +1,6 @@
 <?php
   
-  define('ROOT', str_replace('\\', '/', dirname(__FILE__)));
-    
+  define('ROOT', dirname(str_replace('\\', '/',__FILE__)));
   define('APPLICATION_PATH', ROOT . '/application');
   define('LIBRARY_PATH',     ROOT . '/library');
   define('FILES_DIR',        ROOT . '/upload'); // place where we will upload project files
