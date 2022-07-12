@@ -27,7 +27,7 @@
   require_once INSTALLATION_PATH . '/environment/functions/files.php';
   require_once INSTALLATION_PATH . '/environment/functions/utf.php';
   require_once INSTALLATION_PATH . '/environment/classes/template/Template.class.php';
-  require_once INSTALLATION_PATH . '/environment/classes/Error.class.php';
+  //require_once INSTALLATION_PATH . '/environment/classes/Error.class.php';
   require_once INSTALLATION_PATH . '/environment/classes/errors/filesystem/FileDnxError.class.php';
   
   // Set exception handler
