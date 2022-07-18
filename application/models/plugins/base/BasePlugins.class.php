@@ -5,8 +5,8 @@
   *
   * @http://www.projectpier.org/
   */
-  abstract class BasePlugins extends DataManager {
-  
+  class BasePlugins extends DataManager {
+    static private $instance = null;
     /**
     * Column name => Column type map
     *

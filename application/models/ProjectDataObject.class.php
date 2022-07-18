@@ -163,7 +163,7 @@
     * @param Project $project
     * @return boolean
     */
-    abstract function canAdd(User $user, Project $project);
+    abstract static function canAdd(User $user, Project $project);
     
     /**
     * Returns true if this user can edit this object

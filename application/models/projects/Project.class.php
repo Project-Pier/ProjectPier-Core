@@ -621,7 +621,7 @@
     * @return array
     */
     function getUpcomingMilestones() {
-      if ($this->upcoming_milestones === false) {
+      if (empty($this->upcoming_milestones) === false) {
         $this->splitOpenMilestones();
       }
       return $this->upcoming_milestones;
@@ -637,9 +637,9 @@
       $open_milestones = $this->getOpenMilestones();
       
       // Reset from false
-      $this->late_milestones = null;
-      $this->today_milestones = null;
-      $this->upcoming_milestones = null;
+      $this->late_milestones = [];
+      $this->today_milestones = [];
+      $this->upcoming_milestones = [];
       
       if (is_array($open_milestones)) {
         foreach ($open_milestones as $open_milestone) {
@@ -1316,7 +1316,7 @@
       } // if
       
       return ProjectTasks::instance()->findAll(array(
-        'conditions' => array('`task_list_id` IN (?) AND ((`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?)) AND `completed_on` = ?', $task_list_ids, $user->getId(), $user->getCompanyId(), 0, $user->getCompanyId(), 0, 0, EMPTY_DATETIME),
+        'conditions' => array('`task_list_id` IN (?) AND ((`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?)) AND `completed_on` = ?', implode(',', $task_list_ids), $user->getId(), $user->getCompanyId(), 0, $user->getCompanyId(), 0, 0, EMPTY_DATETIME),
         //'conditions' => array('((`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?) OR (`assigned_to_user_id` = ? AND `assigned_to_company_id` = ?)) AND `completed_on` = ?', $task_list_ids, $user->getId(), $user->getCompanyId(), 0, $user->getCompanyId(), 0, 0, EMPTY_DATETIME),
         'order' => '`task_list_id`, `due_date`'
       )); // findAll

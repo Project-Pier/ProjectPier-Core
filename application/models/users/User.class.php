@@ -374,7 +374,7 @@
         return false;
       }
       // delete permission
-      ProjectUserPermissions::delete( array(
+      ProjectUserPermissions::instance()->delete( array(
            '`user_id` = ? AND `project_id` = ? AND `permission_id` = ?', 
            $this->getId(),
            0,
@@ -413,7 +413,7 @@
         $pup->setPermissionId($permission_id);
         $pup->save();
       } else {
-        $pup = ProjectUserPermissions::findOne(array('conditions' => '`project_id` = '.$project->getId().' and `user_id` = '.$this->getId().' and `permission_id` = '.$permission_id));
+        $pup = ProjectUserPermissions::instance()->findOne(array('conditions' => '`project_id` = '.$project->getId().' and `user_id` = '.$this->getId().' and `permission_id` = '.$permission_id));
         if (isset($pup) && ($pup instanceOf ProjectUserPermission)) {
           $pup->delete();
         } // if
@@ -429,8 +429,8 @@
     * @return boolean
     */
     function setProjectPermissionsByGroup(Project $project, $permission_group, $granted) {
-      trace(__FILE__, "setProjectPermissionsByGroup(project, $permission_name, $granted):begin");
-      $permissions = PermissionManager::getPermissionsByGroup($permission_group);
+      trace(__FILE__, "setProjectPermissionsByGroup(project, $permission_group, $granted):begin");
+      $permissions = PermissionManager::instance()->getPermissionsByGroup($permission_group);
       foreach($permissions as $permission_name) {
         $this->setProjectPermission($project, $permission_name, $granted);
       }
@@ -832,7 +832,7 @@
     * @param Company $to Can user add user to this company
     * @return boolean
     */
-    function canAdd(User $user, Company $to) {
+    static function canAdd(User $user, Company $to) {
       if ($user->isAccountOwner()) {
         return true;
       } // if
@@ -1059,7 +1059,7 @@
     * @param string $redirect_to URL where we need to redirect user when he updates profile
     * @return string
     */
-    function getEditProfileUrl($redirect_to = null) {
+    function getEditProfileUrl($redirect_to = '') {
       $attributes = array('id' => $this->getContact()->getId());
       if (trim($redirect_to) <> '') {
         $attributes['redirect_to'] = str_replace('&amp;', '&', trim($redirect_to));
@@ -1074,7 +1074,7 @@
     * @param string $redirect_to URL where we need to redirect user when he updates password
     * @return null
     */
-    function getEditPasswordUrl($redirect_to = null) {
+    function getEditPasswordUrl($redirect_to = '') {
       $attributes = array('id' => $this->getId());
       if (trim($redirect_to) <> '') {
         $attributes['redirect_to'] = str_replace('&amp;', '&', trim($redirect_to));
@@ -1115,7 +1115,7 @@
     * @param string $redirect_to
     * @return string
     */
-    function getUpdatePermissionsUrl($redirect_to = null) {
+    function getUpdatePermissionsUrl($redirect_to = '') {
       $attributes = array('id' => $this->getId());
       if (trim($redirect_to) <> '') {
         $attributes['redirect_to'] = str_replace('&amp;', '&', trim($redirect_to));

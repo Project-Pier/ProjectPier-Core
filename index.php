@@ -7,6 +7,5 @@
   if (!version_compare(phpversion(), '8.0', '>=')) {
     die('<strong>Installation error:</strong> in order to run ProjectPier you need PHP8. Your current PHP version is: ' . phpversion());
   } // if
-  define('PUBLIC_FOLDER', 'public');
   require 'init.php';
 ?>

@@ -1,5 +1,9 @@
 <?php 
-  add_stylesheet_to_page('project/messages.css'); 
+  add_stylesheet_to_page('project/messages.css');
+project_tabbed_navigation('messages');
+project_crumbs(array(
+  array(lang('messages'), get_url('message', 'index')),
+  array(lang('view message'))));
 ?>
 <div class="message">
   <div class="block"><div class="header">

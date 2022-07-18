@@ -5,7 +5,7 @@
   *
   * @http://www.projectpier.org/
   */
-  abstract class BaseUser extends ApplicationDataObject {
+   class BaseUser extends ApplicationDataObject {
 
     public function __construct() {
       $this->attr_protected = array_merge($this->attr_protected, array('is_admin', 'auto_assign'));

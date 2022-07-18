@@ -392,7 +392,7 @@
     * @param string $redirect_to Redirect to this URL (referer will be used if this URL is not provided)
     * @return string
     */
-    function getCompleteUrl($redirect_to = null) {
+    function getCompleteUrl($redirect_to = '') {
       $params = array(
         'id' => $this->getId(), 
         'active_project' => $this->getProjectId()

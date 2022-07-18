@@ -518,7 +518,7 @@
     * @param string $redirect_to URL where we need to redirect user when he updates contact
     * @return string
     */
-    function getEditUrl($redirect_to = null) {
+    function getEditUrl($redirect_to = '') {
       $attributes = array('id' => $this->getId());
       if (trim($redirect_to) <> '') {
         $attributes['redirect_to'] = str_replace('&amp;', '&', trim($redirect_to));

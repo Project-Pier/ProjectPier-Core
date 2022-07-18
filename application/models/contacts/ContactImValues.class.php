@@ -14,7 +14,7 @@
     * @param Contact $contact
     * @return ImType
     */
-    function getDefaultContactImType(Contact $contact) {
+    static function getDefaultContactImType(Contact $contact) {
       
       $contact_im_values_table = ContactImValues::instance()->getTableName(true);
       $im_types_table = ImTypes::instance()->getTableName(true);

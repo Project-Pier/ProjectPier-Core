@@ -16,7 +16,7 @@
     * @param string $additional_conditions
     * @return array
     */
-    function getUsersByProject(Project $project, $additional_conditions = null) {
+    static function getUsersByProject(Project $project, $additional_conditions = null) {
       $contacts_table = Contacts::instance()->getTableName(true);
       $users_table = Users::instance()->getTableName(true);
       $project_users_table = ProjectUsers::instance()->getTableName(true);
@@ -60,7 +60,7 @@
     * @param 
     * @return array
     */
-    function getProjectsByUser(User $user, $additional_conditions = null, $additional_sort = null) {
+    static function getProjectsByUser(User $user, $additional_conditions = '', $additional_sort = '') {
       trace(__FILE__, "getProjectsByUser(user, $additional_conditions, $additional_sort)");
       $projects_table = Projects::instance()->getTableName(true);
       trace(__FILE__, "getProjectsByUser():1");
