@@ -58,7 +58,7 @@ class PermissionManager {
   * @return array mapping the permission group string to the locale key for that permission string
   *
   */
-  function getPermissionGroupsText() {
+  static function getPermissionGroupsText() {
     return array('access' => 'can access all', 'manage' => 'can manage all', 'other' => 'all other');
   }
   /*
@@ -92,7 +92,7 @@ class PermissionManager {
   * @return array mapping the permission string to the locale key for that permission string
   *
   */
-  function getPermissionsText() {
+  static function getPermissionsText() {
     static $instance_permText;
     if (is_array($instance_permText)) {
       return $instance_permText;

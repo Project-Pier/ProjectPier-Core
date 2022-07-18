@@ -58,7 +58,7 @@
       $source = substr($permission_string,0,$index);
       $name = substr($permission_string,$index+1);
       $name = preg_replace('/_/',' ',$name);
-      $permission = Permissions::findOne(array('conditions' => "`source` = '".$source."' and `permission` = '".$name."'"));
+      $permission = Permissions::instance()->findOne(array('conditions' => "`source` = '".$source."' and `permission` = '".$name."'"));
       if (isset($permission)) {
         return $permission->getId();
       } // if
