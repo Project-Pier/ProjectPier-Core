@@ -354,7 +354,7 @@
       
       $project_user = new ProjectUser();
       $project_user->setUserId($this->getId());
-      $project_user->setProjectId(0);
+      $project_user->setProjectId(1);
 
       $value = in_array($permission,$project_user->getPermissions()) ? true : false;
       return $value;
