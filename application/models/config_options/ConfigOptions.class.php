@@ -62,7 +62,7 @@
     * @return ConfigOption
     */
     static function getByName($name) {
-      return self::findOne(array(
+      return self::instance()->findOne(array(
         'conditions' => array('`name` = ?', $name)
       )); // if
     } // getByName

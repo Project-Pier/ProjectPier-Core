@@ -7,7 +7,7 @@
   * @http://www.projectpier.org/
   */
   abstract class BaseConfigOptions extends DataManager {
-  
+      static private $instance = null;
     /**
     * Column name => Column type map
     *
@@ -221,7 +221,7 @@
     *
     * @return ConfigOptions 
     */
-    function instance() {
+    static function instance() {
       static $instance;
       if (!instance_of($instance, 'ConfigOptions')) {
         $instance = new ConfigOptions();

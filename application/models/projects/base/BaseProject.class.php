@@ -312,7 +312,21 @@
       }
       return $this->manager;
     } // manager
-  
+
+    /**
+     * Return manager instance
+     *
+     * @return Project
+     */
+    static function instance() {
+      static $instance;
+      if (!instance_of($instance, 'Project')) {
+        $instance = new Project();
+      } // if
+      return $instance;
+    } // instance
+
+
   } // BaseProject 
 
 ?>

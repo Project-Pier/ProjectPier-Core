@@ -28,7 +28,7 @@
       ksort($results);
       // now get activated plugins
       $conditions = array('`installed` = 1');
-      $plugins = Plugins::findAll(array(
+      $plugins = Plugins::instance()->findAll(array(
         'conditions' => $conditions
         ));
       trace(__FILE__,'getAllPlugins() - all plugins retrieved from database');
