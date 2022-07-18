@@ -99,7 +99,7 @@
     * @return boolean
     */
     static function fileExists($filename) {
-      return is_readable(self::getFilePath($file));
+      return is_readable(self::getFilePath($filename));
     } // fileExists
     
     // ---------------------------------------------------

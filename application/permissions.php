@@ -22,7 +22,7 @@
   }
 
   function remove_permission($source, $permission_to_remove) {
-    permission_manager()->removePermission($source,$permission_to_add);
+    permission_manager()->removePermission($source,$permission_to_remove);
   }
 
   function remove_permission_source($source) {
