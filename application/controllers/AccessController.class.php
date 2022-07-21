@@ -78,6 +78,9 @@
         } catch (Exception $e) {
           tpl_assign('error', new Error(lang($e->getMessage())));
           $this->render();
+        } catch (Error $e){
+          tpl_assign('error', new Error(lang($e->getMessage())));
+          $this->render();
         }
 
         try {
